@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.4" method="upgrade">
+    <name>COM_EMAILTEMPLATES</name>
+    <author>Todor Iliev</author>
+    <authorEmail>todor@itprism.com</authorEmail>
+    <authorUrl>http://itprism.com</authorUrl>
+    <copyright>Copyright (C) 2015 Todor Iliev ( ITPrism.com )</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html</license>
+    <version>1.0</version>
+    <creationDate>07 April, 2015</creationDate>
+    <description><![CDATA[
+    <p><a href='#' target='_blank'>Email Templates</a> is an extension for Joomla! developers that provides functionality for creating and managing e-mail templates.</p>
+    <p>Invest in the extension and help for its improvement. You can <a href='http://itprism.com/sponsorship' title='Sponsoring' target='_blank'>sponsor the extension via SMS, PayPal or Bitcoin</a>.</p>
+    <p><a href='http://itprism.com/' target='_blank'>Subscribe for the newsletter</a> to receive <strong>gifts</strong>, <strong>discount codes</strong>, information about <strong>updates</strong> and information about <strong>new ITPrism extensions</strong>.</p>
+    <p>Please, <a href='#' target='_blank'>vote for the extension</a> on Joomla! Extensions Directory</p>
+    ]]></description>
+
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.sql</file>
+        </sql>
+    </install>
+
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.sql</file>
+        </sql>
+    </uninstall>
+
+    <update>
+        <schemas>
+            <schemapath type="mysql">sql/updates</schemapath>
+        </schemas>
+    </update>
+
+    <media destination="com_emailtemplates" folder="media">
+        <folder>images</folder>
+        <folder>js</folder>
+    </media>
+
+    <administration>
+        <menu link="option=com_emailtemplates">COM_EMAILTEMPLATES</menu>
+
+        <files folder="admin">
+            <folder>controllers</folder>
+            <folder>helpers</folder>
+            <folder>language</folder>
+            <folder>models</folder>
+            <folder>sql</folder>
+            <folder>tables</folder>
+            <folder>views</folder>
+
+            <filename>controller.php</filename>
+            <filename>access.xml</filename>
+            <filename>emailtemplates.php</filename>
+        </files>
+
+    </administration>
+</extension>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="email">
+
+        <field name="title" type="text" class="span12"
+               label="COM_EMAILTEMPLATES_TITLE"
+               description="COM_EMAILTEMPLATES_EMAIL_TITLE_DESC"
+               filter="trim"
+               required="true"
+                />
+
+        <field name="subject" type="text" class="span12"
+               label="COM_EMAILTEMPLATES_SUBJECT"
+               description="COM_EMAILTEMPLATES_SUBJECT_DESC"
+               filter="trim"
+                />
+
+        <field name="sender_name" type="text" class="span6"
+               label="COM_EMAILTEMPLATES_SENDER_NAME"
+               description="COM_EMAILTEMPLATES_SENDER_NAME_DESC"
+               filter="trim"
+                />
+
+        <field name="sender_email" type="text" class="span6"
+               label="COM_EMAILTEMPLATES_SENDER_EMAIL"
+               description="COM_EMAILTEMPLATES_SENDER_EMAIL_DESC"
+               filter="trim"
+                />
+
+        <field name="body" type="editor" class="span12"
+               label="COM_EMAILTEMPLATES_BODY"
+               description="COM_EMAILTEMPLATES_BODY_DESC"
+               filter="safehtml"
+               rows="10"
+               required="true"
+                />
+
+        <field name="catid" type="category"
+               label="COM_EMAILTEMPLATES_CATEGORY"
+               extension="com_emailtemplates"
+               required="true"
+                />
+
+        <field name="id" type="text" class="readonly"
+               label="JGLOBAL_FIELD_ID_LABEL"
+               description="JGLOBAL_FIELD_ID_DESC"
+               default="0"
+               readonly="true"
+                />
+
+    </fieldset>
+</form>

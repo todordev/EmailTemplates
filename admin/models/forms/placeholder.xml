@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="placeholder">
+
+        <field name="name" type="title"
+               label="COM_EMAILTEMPLATES_NAME"
+               required="true"
+                />
+
+        <field name="description" type="textarea" class="span12"
+               label="COM_EMAILTEMPLATES_DESCRIPTION"
+               rows="10"
+               required="true"
+                />
+
+        <field name="catid" type="category"
+               label="COM_EMAILTEMPLATES_CATEGORY"
+               extension="com_emailtemplates"
+               required="true"
+                />
+
+        <field name="id" type="text" class="readonly"
+               label="JGLOBAL_FIELD_ID_LABEL"
+               description="JGLOBAL_FIELD_ID_DESC"
+               default="0"
+               readonly="true"
+                />
+
+    </fieldset>
+</form>
