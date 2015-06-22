@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="emailtemplates" default="build" basedir=".">
-	<description>Email Templates Lite Ant Build File</description>
+	<description>Email Templates Ant Build File</description>
 
 	<!-- load variables from config file -->
 	<property name="cfg.configFile" location="antconfig.txt" />

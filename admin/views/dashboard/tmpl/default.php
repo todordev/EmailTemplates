@@ -32,7 +32,7 @@ defined('_JEXEC') or die;
             <tbody>
                 <tr>
                     <td><?php echo JText::_("COM_EMAILTEMPLATES_INSTALLED_VERSION");?></td>
-                    <td><?php echo $this->version->getMediumVersion();?></td>
+                    <td><?php echo $this->version->getShortVersion();?></td>
                 </tr>
                 <tr>
                     <td><?php echo JText::_("COM_EMAILTEMPLATES_RELEASE_DATE");?></td>

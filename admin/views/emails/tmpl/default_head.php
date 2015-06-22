@@ -14,19 +14,19 @@ defined('_JEXEC') or die;?>
 		<?php echo JHtml::_('grid.checkall'); ?>
 	</th>
     <th class="title">
-        <?php echo JHtml::_('grid.sort',  'COM_EMAILTEMPLATES_TITLE', 'a.title', $this->listDirn, $this->listOrder); ?>
+        <?php echo JHtml::_('searchtools.sort',  'COM_EMAILTEMPLATES_TITLE', 'a.title', $this->listDirn, $this->listOrder); ?>
     </th>
     <th class="nowrap hidden-phone">
-        <?php echo JHtml::_('grid.sort',  'COM_EMAILTEMPLATES_SUBJECT', 'a.subject', $this->listDirn, $this->listOrder); ?>
+        <?php echo JHtml::_('searchtools.sort',  'COM_EMAILTEMPLATES_SUBJECT', 'a.subject', $this->listDirn, $this->listOrder); ?>
     </th>
     <th  width="20%" class="center nowrap hidden-phone">
-        <?php echo JHtml::_('grid.sort',  'COM_EMAILTEMPLATES_SENDER_NAME', 'a.sender_name', $this->listDirn, $this->listOrder); ?>
+        <?php echo JHtml::_('searchtools.sort',  'COM_EMAILTEMPLATES_SENDER_NAME', 'a.sender_name', $this->listDirn, $this->listOrder); ?>
     </th>
     <th width="10%" class="center nowrap hidden-phone">
-        <?php echo JHtml::_('grid.sort',  'COM_EMAILTEMPLATES_SENDER_EMAIL', 'a.sender_email', $this->listDirn, $this->listOrder); ?>
+        <?php echo JHtml::_('searchtools.sort',  'COM_EMAILTEMPLATES_SENDER_EMAIL', 'a.sender_email', $this->listDirn, $this->listOrder); ?>
     </th>
     <th width="3%" class="center nowrap hidden-phone">
-        <?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ID', 'a.id', $this->listDirn, $this->listOrder); ?>
+        <?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ID', 'a.id', $this->listDirn, $this->listOrder); ?>
     </th>
 </tr>
 	  

@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport("emailtemplates.init");
+jimport("EmailTemplates.init");
 
 class JFormFieldEmailTemplate extends JFormField
 {

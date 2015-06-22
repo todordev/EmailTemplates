@@ -105,10 +105,10 @@ class pkg_emailTemplatesInstallerScript
         EmailTemplatesInstallHelper::addRow($title, $result, $info);
 
         // Display result about verification of installed Prism Library
-        jimport("itprism.version");
+        jimport("Prism.version");
         $title = JText::_("COM_EMAILTEMPLATES_PRISM_LIBRARY");
         $info  = "";
-        if (!class_exists("ITPrismVersion")) {
+        if (!class_exists("\\Prism\\Version")) {
             $info   = JText::_("COM_EMAILTEMPLATES_PRISM_LIBRARY_DOWNLOAD");
             $result = array("type" => "important", "text" => JText::_("JNO"));
         } else {
@@ -121,7 +121,6 @@ class pkg_emailTemplatesInstallerScript
 
         echo JText::sprintf("COM_EMAILTEMPLATES_MESSAGE_REVIEW_SAVE_SETTINGS", JRoute::_("index.php?option=com_emailtemplates"));
 
-        jimport("prism.version");
         if (!class_exists("\\Prism\\Version")) {
             echo JText::_("COM_EMAILTEMPLATES_MESSAGE_INSTALL_PRISM_LIBRARY");
         }

@@ -10,8 +10,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport("prism.init");
-jimport('emailtemplates.init');
+jimport("Prism.init");
+jimport('EmailTemplates.init');
 
 // Get an instance of the controller prefixed by HelloWorld
 $controller = JControllerLegacy::getInstance("EmailTemplates");
