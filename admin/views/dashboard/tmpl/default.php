@@ -26,7 +26,6 @@ defined('_JEXEC') or die;
         <a href="http://itprism.com/free-joomla-extensions/ecommerce-gamification/feedbacks-ideas-suggestions" target="_blank"><img src="../media/com_emailtemplates/images/logo.png" alt="<?php echo JText::_("COM_EMAILTEMPLATES");?>" /></a>
         <a href="http://itprism.com" target="_blank" title="<?php echo JText::_("COM_EMAILTEMPLATES_ITPRISM_PRODUCT");?>"><img src="../media/com_emailtemplates/images/product_of_itprism.png" alt="<?php echo JText::_("COM_EMAILTEMPLATES_PRODUCT");?>" /></a>
         <p><?php echo JText::_("COM_EMAILTEMPLATES_YOUR_VOTE"); ?></p>
-        <p><?php echo JText::_("COM_EMAILTEMPLATES_SPONSORSHIP"); ?></p>
         <p><?php echo JText::_("COM_EMAILTEMPLATES_SUBSCRIPTION"); ?></p>
         <table class="table table-striped">
             <tbody>

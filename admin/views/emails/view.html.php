@@ -109,28 +109,15 @@ class EmailTemplatesViewEmails extends JViewLegacy
     {
         $this->document->setTitle(JText::_('COM_EMAILTEMPLATES_EMAIL_TEMPLATES_MANAGER'));
 
-        switch ($this->getLayout()) {
+        // Scripts
+        JHtml::_('jquery.framework');
+        JHtml::_('behavior.multiselect');
+        JHtml::_('bootstrap.tooltip');
 
-            case "modal":
+        JHtml::_('formbehavior.chosen', 'select');
 
-                JHtml::_('jquery.framework');
-                $this->document->addScript('../media/' . $this->option . '/js/admin/' . String::strtolower($this->getName()) . '_modal.js');
-
-                break;
-
-            default:
-                // Load language string in JavaScript
-                JText::script('COM_EMAILTEMPLATES_SEARCH_IN_TITLE_TOOLTIP');
-
-                // Scripts
-                JHtml::_('behavior.multiselect');
-                JHtml::_('bootstrap.tooltip');
-
-                JHtml::_('formbehavior.chosen', 'select');
-
-                // Add scripts
-                $this->document->addScript('../media/' . $this->option . '/js/admin/' . String::strtolower($this->getName()) . '.js');
-                break;
+        if ($this->getLayout() == "modal") {
+            $this->document->addScript('../media/' . $this->option . '/js/admin/emails_modal.js');
         }
     }
 }

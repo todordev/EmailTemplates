@@ -110,16 +110,11 @@ class EmailTemplatesViewPlaceholders extends JViewLegacy
     {
         $this->document->setTitle(JText::_('COM_EMAILTEMPLATES_PLACEHOLDER_MANAGER'));
 
-        // Load language string in JavaScript
-        JText::script('COM_EMAILTEMPLATES_SEARCH_IN_NAME_TOOLTIP');
-
         // Scripts
         JHtml::_('behavior.multiselect');
         JHtml::_('bootstrap.tooltip');
 
         JHtml::_('formbehavior.chosen', 'select');
 
-        // Add scripts
-        $this->document->addScript('../media/' . $this->option . '/js/admin/' . String::strtolower($this->getName()) . '.js');
     }
 }
