@@ -10,7 +10,7 @@ You can find documentation on following pages.
 
 [Documentation and FAQ] (#)
 
-[API documentation] (#)
+[API documentation] (http://cdn.itprism.com/api/emailtemplates/index.html)
 
 ##Download
-You can [download Email Templates package] (#) from the website of ITPrism.
+You can [download Email Templates package] (http://itprism.com/free-joomla-extensions/others/email-templates-manager) from the website of ITPrism.
