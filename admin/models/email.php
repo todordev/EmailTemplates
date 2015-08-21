@@ -4,7 +4,7 @@
  * @subpackage   Component
  * @author       Todor Iliev
  * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
- * @license      http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
 use Joomla\Utilities\ArrayHelper;
@@ -57,10 +57,21 @@ class EmailTemplatesModelEmail extends JModelAdmin
      */
     protected function loadFormData()
     {
+        $app = JFactory::getApplication();
+
         // Check the session for previously entered form data.
         $data = JFactory::getApplication()->getUserState($this->option . '.edit.email.data', array());
+
         if (empty($data)) {
             $data = $this->getItem();
+
+            // Prime some default values.
+            if ($this->getState('email.id') == 0) {
+                $filters = (array) $app->getUserState('com_emailtemplates.emails.filter');
+                $filterCatId = isset($filters['category_id']) ? $filters['category_id'] : null;
+
+                $data->set('catid', $app->input->getInt('catid', $filterCatId));
+            }
         }
 
         return $data;
@@ -125,5 +136,24 @@ class EmailTemplatesModelEmail extends JModelAdmin
         if (!$table->get("sender_email")) {
             $table->set("sender_email", null);
         }
+    }
+
+    public function copyEmails(array $ids, $categoryId)
+    {
+        foreach ($ids as $id) {
+
+            if (!empty($id)) {
+                $table = $this->getTable();
+                $table->load($id);
+
+                if ($table->get("id")) {
+                    $table->set("id", null);
+                    $table->set("catid", (int)$categoryId);
+
+                    $table->store();
+                }
+            }
+        }
+
     }
 }

@@ -1,6 +1,6 @@
 Email Templates for Joomla! 
 ==========================
-( Version 1.0 )
+( Version 1.1 )
 --------------------------
 
 Email Templates is an extension for Joomla! developers that provides functionality for creating and managing e-mail templates. Developers will be able to use those e-mail templates in their applications.

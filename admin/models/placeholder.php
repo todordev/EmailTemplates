@@ -4,7 +4,7 @@
  * @subpackage   Component
  * @author       Todor Iliev
  * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
- * @license      http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
 use Joomla\Utilities\ArrayHelper;
@@ -134,6 +134,25 @@ class EmailTemplatesModelPlaceholder extends JModelAdmin
             $max = $db->loadResult();
 
             $table->set("ordering", $max + 1);
+        }
+
+    }
+
+    public function copyPlaceholders(array $ids, $categoryId)
+    {
+        foreach ($ids as $id) {
+
+            if (!empty($id)) {
+                $table = $this->getTable();
+                $table->load($id);
+
+                if ($table->get("id")) {
+                    $table->set("id", null);
+                    $table->set("catid", (int)$categoryId);
+
+                    $table->store();
+                }
+            }
         }
 
     }

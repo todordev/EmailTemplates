@@ -4,7 +4,7 @@
  * @subpackage   Component
  * @author       Todor Iliev
  * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
- * @license      http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -22,7 +22,7 @@ defined('_JEXEC') or die;?>
         // Search tools bar
         echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
         ?>
-        <table class="table table-striped" id="placeholderList">
+        <table class="table table-striped" id="placeholdersList">
     	   <thead><?php echo $this->loadTemplate('head');?></thead>
     	   <tfoot><?php echo $this->loadTemplate('foot');?></tfoot>
     	   <tbody><?php echo $this->loadTemplate('body');?></tbody>
@@ -33,3 +33,6 @@ defined('_JEXEC') or die;?>
         <?php echo JHtml::_('form.token'); ?>
     </div>
 </form>
+
+<?php //Load the batch processing form. ?>
+<?php echo $this->loadTemplate('batch'); ?>

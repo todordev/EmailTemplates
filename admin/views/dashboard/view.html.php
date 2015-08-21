@@ -4,7 +4,7 @@
  * @subpackage   Component
  * @author       Todor Iliev
  * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
- * @license      http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -29,6 +29,7 @@ class EmailTemplatesViewDashboard extends JViewLegacy
 
     protected $version;
     protected $prismVersion;
+    protected $prismVersionLowerMessage;
 
     protected $sidebar;
 
@@ -46,8 +47,12 @@ class EmailTemplatesViewDashboard extends JViewLegacy
         if (!class_exists("\\Prism\\Version")) {
             $this->prismVersion = JText::_("COM_EMAILTEMPLATES_PRISM_LIBRARY_DOWNLOAD");
         } else {
-            $prismVersion       = new Prism\Version;
+            $prismVersion       = new Prism\Version();
             $this->prismVersion = $prismVersion->getShortVersion();
+
+            if (version_compare($this->prismVersion, $this->version->requiredPrismVersion, "<")) {
+                $this->prismVersionLowerMessage = JText::_("COM_EMAILTEMPLATES_PRISM_LIBRARY_LOWER_VERSION");
+            }
         }
 
         // Add submenu

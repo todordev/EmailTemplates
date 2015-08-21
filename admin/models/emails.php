@@ -4,7 +4,7 @@
  * @subpackage   Component
  * @author       Todor Iliev
  * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
- * @license      http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -15,11 +15,10 @@ defined('_JEXEC') or die;
  */
 class EmailTemplatesModelEmails extends JModelList
 {
-
     /**
      * Constructor.
      *
-     * @param   array   An optional associative array of configuration settings.
+     * @param   array  $config An optional associative array of configuration settings.
      *
      * @see     JController
      * @since   1.6
@@ -36,13 +35,6 @@ class EmailTemplatesModelEmails extends JModelList
         parent::__construct($config);
     }
 
-    /**
-     * Method to auto-populate the model state.
-     *
-     * Note. Calling getState in this method will result in recursion.
-     *
-     * @since   1.6
-     */
     protected function populateState($ordering = null, $direction = null)
     {
         // Load the component parameters.

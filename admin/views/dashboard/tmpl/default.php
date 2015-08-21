@@ -4,7 +4,7 @@
  * @subpackage   Component
  * @author       Todor Iliev
  * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
- * @license      http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
         </div>
 	
 	<div class="span4">
-        <a href="http://itprism.com/free-joomla-extensions/ecommerce-gamification/feedbacks-ideas-suggestions" target="_blank"><img src="../media/com_emailtemplates/images/logo.png" alt="<?php echo JText::_("COM_EMAILTEMPLATES");?>" /></a>
+        <a href="http://itprism.com/free-joomla-extensions/others/email-templates-manager" target="_blank"><img src="../media/com_emailtemplates/images/logo.png" alt="<?php echo JText::_("COM_EMAILTEMPLATES");?>" /></a>
         <a href="http://itprism.com" target="_blank" title="<?php echo JText::_("COM_EMAILTEMPLATES_ITPRISM_PRODUCT");?>"><img src="../media/com_emailtemplates/images/product_of_itprism.png" alt="<?php echo JText::_("COM_EMAILTEMPLATES_PRODUCT");?>" /></a>
         <p><?php echo JText::_("COM_EMAILTEMPLATES_YOUR_VOTE"); ?></p>
         <p><?php echo JText::_("COM_EMAILTEMPLATES_SUBSCRIPTION"); ?></p>
@@ -51,5 +51,10 @@ defined('_JEXEC') or die;
                 </tr>
             </tbody>
         </table>
+
+        <?php if (!empty($this->prismVersionLowerMessage)) {?>
+            <p class="alert alert-warning cf-upgrade-info"><i class="icon-warning"></i> <?php echo $this->prismVersionLowerMessage; ?></p>
+        <?php } ?>
+        <p class="alert alert-info cf-upgrade-info"><i class="icon-info"></i> <?php echo JText::_("COM_EMAILTEMPLATES_HOW_TO_UPGRADE"); ?></p>
 	</div>
 </div>

@@ -4,7 +4,7 @@
  * @subpackage   Component
  * @author       Todor Iliev
  * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
- * @license      http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
 use Joomla\String\String;
@@ -96,7 +96,29 @@ class EmailTemplatesViewPlaceholders extends JViewLegacy
         JToolbarHelper::addNew('placeholder.add');
         JToolbarHelper::editList('placeholder.edit');
         JToolbarHelper::divider();
+
+        // Add custom buttons
+        $bar = JToolbar::getInstance('toolbar');
+        
+        // Import
+        $link = JRoute::_('index.php?option=com_emailtemplates&view=import&type=placeholders');
+        $bar->appendButton('Link', 'upload', JText::_("COM_EMAILTEMPLATES_IMPORT"), $link);
+
+        JToolbarHelper::custom('export.placeholders', 'download', "", JText::_("COM_EMAILTEMPLATES_EXPORT"));
+        
+        JToolbarHelper::divider();
         JToolbarHelper::deleteList(JText::_("COM_EMAILTEMPLATES_DELETE_ITEMS_QUESTION"), "placeholders.delete");
+        JToolbarHelper::divider();
+
+        $layoutData = array(
+            'title' => JText::_('JTOOLBAR_BATCH')
+        );
+
+        // Instantiate a new JLayoutFile instance and render the batch button
+        $layout = new JLayoutFile('joomla.toolbar.batch');
+        $html = $layout->render($layoutData);
+        $bar->appendButton('Custom', $html, 'batch');
+
         JToolbarHelper::divider();
         JToolbarHelper::custom('placeholders.backToDashboard', "dashboard", "", JText::_("COM_EMAILTEMPLATES_DASHBOARD"), false);
     }
@@ -110,11 +132,18 @@ class EmailTemplatesViewPlaceholders extends JViewLegacy
     {
         $this->document->setTitle(JText::_('COM_EMAILTEMPLATES_PLACEHOLDER_MANAGER'));
 
+        // Load language string in JavaScript
+        JText::script('COM_EMAILTEMPLATES_PLACEHOLDERS_NOT_SELECTED');
+
         // Scripts
         JHtml::_('behavior.multiselect');
         JHtml::_('bootstrap.tooltip');
 
         JHtml::_('formbehavior.chosen', 'select');
 
+        JHtml::_('Prism.ui.pnotify');
+        JHtml::_('Prism.ui.joomlaHelper');
+
+        $this->document->addScript('../media/' . $this->option . '/js/admin/' . Joomla\String\String::strtolower($this->getName()) . '.js');
     }
 }

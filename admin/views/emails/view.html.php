@@ -4,7 +4,7 @@
  * @subpackage   Component
  * @author       Todor Iliev
  * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
- * @license      http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
 use Joomla\String\String;
@@ -95,6 +95,24 @@ class EmailTemplatesViewEmails extends JViewLegacy
         JToolbarHelper::addNew('email.add');
         JToolbarHelper::editList('email.edit');
         JToolbarHelper::divider();
+        // Add custom buttons
+        $bar = JToolbar::getInstance('toolbar');
+
+        // Import
+        $link = JRoute::_('index.php?option=com_emailtemplates&view=import&type=emails');
+        $bar->appendButton('Link', 'upload', JText::_("COM_EMAILTEMPLATES_IMPORT"), $link);
+
+        JToolbarHelper::custom('export.emails', 'download', "", JText::_("COM_EMAILTEMPLATES_EXPORT"));
+        JToolbarHelper::divider();
+        $layoutData = array(
+            'title' => JText::_('JTOOLBAR_BATCH')
+        );
+
+        // Instantiate a new JLayoutFile instance and render the batch button
+        $layout = new JLayoutFile('joomla.toolbar.batch');
+        $html = $layout->render($layoutData);
+        $bar->appendButton('Custom', $html, 'batch');
+        JToolbarHelper::divider();
         JToolbarHelper::deleteList(JText::_("COM_EMAILTEMPLATES_DELETE_ITEMS_QUESTION"), "emails.delete");
         JToolbarHelper::divider();
         JToolbarHelper::custom('emails.backToDashboard', "dashboard", "", JText::_("COM_EMAILTEMPLATES_DASHBOARD"), false);
@@ -109,12 +127,20 @@ class EmailTemplatesViewEmails extends JViewLegacy
     {
         $this->document->setTitle(JText::_('COM_EMAILTEMPLATES_EMAIL_TEMPLATES_MANAGER'));
 
+        // Load language string in JavaScript
+        JText::script('COM_EMAILTEMPLATES_EMAILS_NOT_SELECTED');
+
         // Scripts
         JHtml::_('jquery.framework');
         JHtml::_('behavior.multiselect');
         JHtml::_('bootstrap.tooltip');
 
         JHtml::_('formbehavior.chosen', 'select');
+
+        JHtml::_('Prism.ui.pnotify');
+        JHtml::_('Prism.ui.joomlaHelper');
+
+        $this->document->addScript('../media/' . $this->option . '/js/admin/' . Joomla\String\String::strtolower($this->getName()) . '.js');
 
         if ($this->getLayout() == "modal") {
             $this->document->addScript('../media/' . $this->option . '/js/admin/emails_modal.js');

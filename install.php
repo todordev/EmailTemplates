@@ -4,7 +4,7 @@
  * @subpackage   Component
  * @author       Todor Iliev
  * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
- * @license      http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -108,7 +108,7 @@ class pkg_emailTemplatesInstallerScript
         jimport("Prism.version");
         $title = JText::_("COM_EMAILTEMPLATES_PRISM_LIBRARY");
         $info  = "";
-        if (!class_exists("\\Prism\\Version")) {
+        if (!class_exists("Prism\\Version")) {
             $info   = JText::_("COM_EMAILTEMPLATES_PRISM_LIBRARY_DOWNLOAD");
             $result = array("type" => "important", "text" => JText::_("JNO"));
         } else {
@@ -121,8 +121,17 @@ class pkg_emailTemplatesInstallerScript
 
         echo JText::sprintf("COM_EMAILTEMPLATES_MESSAGE_REVIEW_SAVE_SETTINGS", JRoute::_("index.php?option=com_emailtemplates"));
 
-        if (!class_exists("\\Prism\\Version")) {
+        if (!class_exists("Prism\\Version")) {
             echo JText::_("COM_EMAILTEMPLATES_MESSAGE_INSTALL_PRISM_LIBRARY");
+        } else {
+
+            if (class_exists("Crowdfunding\\Version")) {
+                $prismVersion     = new Prism\Version();
+                $componentVersion = new EmailTemplates\Version();
+                if (version_compare($prismVersion->getShortVersion(), $componentVersion->requiredPrismVersion, "<")) {
+                    echo JText::_("COM_EMAILTEMPLATES_MESSAGE_INSTALL_PRISM_LIBRARY");
+                }
+            }
         }
     }
 }

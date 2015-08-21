@@ -4,7 +4,7 @@
  * @subpackage   Version
  * @author       Todor Iliev
  * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
- * @license      http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
 namespace EmailTemplates;
@@ -38,7 +38,7 @@ class Version
      *
      * @var integer
      */
-    public $devLevel = '0';
+    public $devLevel = '1';
 
     /**
      * Release Type
@@ -59,7 +59,7 @@ class Version
      *
      * @var string
      */
-    public $releaseDate = '30 June, 2015';
+    public $releaseDate = '21 August, 2015';
 
     /**
      * License
@@ -95,6 +95,13 @@ class Version
      * @var string
      */
     public $developer = '<a href="http://itprism.com" target="_blank">ITPrism</a>';
+
+    /**
+     * Minimum required version of Prism library.
+     *
+     * @var string
+     */
+    public $requiredPrismVersion = '1.2';
 
     /**
      *  Build long format of the version text
