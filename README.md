@@ -14,3 +14,6 @@ You can find documentation on following pages.
 
 ##Download
 You can [download Email Templates package] (http://itprism.com/free-joomla-extensions/others/email-templates-manager) from the website of ITPrism.
+
+##License
+Email Templates is under GPLv3 [license] (https://raw.githubusercontent.com/ITPrism/EmailTemplates/master/LICENSE.txt).
