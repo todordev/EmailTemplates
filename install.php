@@ -70,12 +70,15 @@ class pkg_emailTemplatesInstallerScript
      */
     public function postflight($type, $parent)
     {
-        if (!defined("COM_EMAILTEMPLATES_PATH_COMPONENT_ADMINISTRATOR")) {
-            define("COM_EMAILTEMPLATES_PATH_COMPONENT_ADMINISTRATOR", JPATH_ADMINISTRATOR . "/components/com_emailtemplates");
+        if (!defined("EMAILTEMPLATES_PATH_COMPONENT_ADMINISTRATOR")) {
+            define("EMAILTEMPLATES_PATH_COMPONENT_ADMINISTRATOR", JPATH_ADMINISTRATOR . "/components/com_emailtemplates");
         }
 
         // Register Component helpers
-        JLoader::register("EmailTemplatesInstallHelper", COM_EMAILTEMPLATES_PATH_COMPONENT_ADMINISTRATOR . "/helpers/install.php");
+        JLoader::register("EmailTemplatesInstallHelper", EMAILTEMPLATES_PATH_COMPONENT_ADMINISTRATOR . "/helpers/install.php");
+
+        jimport('Prism.init');
+        jimport('EmailTemplates.init');
 
         // Start table with the information
         EmailTemplatesInstallHelper::startTable();
