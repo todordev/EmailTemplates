@@ -3,7 +3,7 @@
  * @package      EmailTemplates
  * @subpackage   Component
  * @author       Todor Iliev
- * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
+ * @copyright    Copyright (C) 2016 Todor Iliev <todor@itprism.com>. All rights reserved.
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
@@ -66,9 +66,9 @@ class EmailTemplatesModelEmail extends JModelAdmin
             $data = $this->getItem();
 
             // Prime some default values.
-            if ($this->getState('email.id') == 0) {
+            if ((int)$this->getState('email.id') === 0) {
                 $filters = (array) $app->getUserState('com_emailtemplates.emails.filter');
-                $filterCatId = isset($filters['category_id']) ? $filters['category_id'] : null;
+                $filterCatId = array_key_exists('category_id', $filters) ? (int)$filters['category_id'] : null;
 
                 $data->set('catid', $app->input->getInt('catid', $filterCatId));
             }
@@ -86,13 +86,13 @@ class EmailTemplatesModelEmail extends JModelAdmin
      */
     public function save($data)
     {
-        $id          = ArrayHelper::getValue($data, "id", 0, "int");
-        $title       = ArrayHelper::getValue($data, "title");
-        $subject     = ArrayHelper::getValue($data, "subject");
-        $senderName  = ArrayHelper::getValue($data, "sender_name");
-        $senderEmail = ArrayHelper::getValue($data, "sender_email");
-        $body        = ArrayHelper::getValue($data, "body");
-        $categoryId  = ArrayHelper::getValue($data, "catid", 0, "int");
+        $id          = ArrayHelper::getValue($data, 'id', 0, 'int');
+        $title       = ArrayHelper::getValue($data, 'title');
+        $subject     = ArrayHelper::getValue($data, 'subject');
+        $senderName  = ArrayHelper::getValue($data, 'sender_name');
+        $senderEmail = ArrayHelper::getValue($data, 'sender_email');
+        $body        = ArrayHelper::getValue($data, 'body');
+        $categoryId  = ArrayHelper::getValue($data, 'catid', 0, 'int');
 
         // Load a record from the database
         $row = $this->getTable();
@@ -100,18 +100,18 @@ class EmailTemplatesModelEmail extends JModelAdmin
 
         $row->load($id);
 
-        $row->set("title", $title);
-        $row->set("subject", $subject);
-        $row->set("sender_name", $senderName);
-        $row->set("sender_email", $senderEmail);
-        $row->set("body", $body);
-        $row->set("catid", $categoryId);
+        $row->set('title', $title);
+        $row->set('subject', $subject);
+        $row->set('sender_name', $senderName);
+        $row->set('sender_email', $senderEmail);
+        $row->set('body', $body);
+        $row->set('catid', $categoryId);
 
         $this->prepareTable($row);
 
         $row->store(true);
 
-        return $row->get("id");
+        return $row->get('id');
     }
 
     /**
@@ -123,18 +123,12 @@ class EmailTemplatesModelEmail extends JModelAdmin
      */
     protected function prepareTable($table)
     {
-        // Fix magic quotes.
-        if (get_magic_quotes_gpc()) {
-            $table->set("subject", stripcslashes($table->get("subject")));
-            $table->set("body", stripcslashes($table->get("body")));
+        if (!$table->get('sender_name')) {
+            $table->set('sender_name', null);
         }
 
-        if (!$table->get("sender_name")) {
-            $table->set("sender_name", null);
-        }
-
-        if (!$table->get("sender_email")) {
-            $table->set("sender_email", null);
+        if (!$table->get('sender_email')) {
+            $table->set('sender_email', null);
         }
     }
 
@@ -142,13 +136,13 @@ class EmailTemplatesModelEmail extends JModelAdmin
     {
         foreach ($ids as $id) {
 
-            if (!empty($id)) {
+            if ((int)$id > 0) {
                 $table = $this->getTable();
                 $table->load($id);
 
-                if ($table->get("id")) {
-                    $table->set("id", null);
-                    $table->set("catid", (int)$categoryId);
+                if ($table->get('id')) {
+                    $table->set('id', null);
+                    $table->set('catid', (int)$categoryId);
 
                     $table->store();
                 }

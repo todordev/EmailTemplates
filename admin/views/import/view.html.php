@@ -3,7 +3,7 @@
  * @package      EmailTemplates
  * @subpackage   Components
  * @author       Todor Iliev
- * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
+ * @copyright    Copyright (C) 2016 Todor Iliev <todor@itprism.com>. All rights reserved.
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
@@ -30,30 +30,25 @@ class EmailTemplatesViewImport extends JViewLegacy
     protected $legend;
     protected $uploadTask;
 
-    public function __construct($config)
-    {
-        parent::__construct($config);
-        $this->option = JFactory::getApplication()->input->get("option");
-    }
-
     public function display($tpl = null)
     {
+        $this->option = JFactory::getApplication()->input->get('option');
+        
         $this->state = $this->get('State');
         $this->form  = $this->get('Form');
 
-        $this->importType = $this->state->get("import.context");
+        $this->importType = $this->state->get('import.context');
 
         switch ($this->importType) {
-            case "placeholders":
-                $this->legend     = JText::_("COM_EMAILTEMPLATES_IMPORT_PLACEHOLDERS");
-                $this->uploadTask = "import.placeholders";
+            case 'placeholders':
+                $this->legend     = JText::_('COM_EMAILTEMPLATES_IMPORT_PLACEHOLDERS');
+                $this->uploadTask = 'import.placeholders';
                 break;
 
             default: // Emails
-                $this->legend     = JText::_("COM_EMAILTEMPLATES_IMPORT_EMAILS");
-                $this->uploadTask = "import.emails";
+                $this->legend     = JText::_('COM_EMAILTEMPLATES_IMPORT_EMAILS');
+                $this->uploadTask = 'import.emails';
                 break;
-
         }
 
         // Add submenu
@@ -77,7 +72,7 @@ class EmailTemplatesViewImport extends JViewLegacy
         JToolbarHelper::title(JText::_('COM_EMAILTEMPLATES_IMPORT_MANAGER'));
 
         // Upload
-        JToolbarHelper::custom($this->uploadTask, "upload", "", JText::_("COM_EMAILTEMPLATES_UPLOAD"), false);
+        JToolbarHelper::custom($this->uploadTask, 'upload', '', JText::_('COM_EMAILTEMPLATES_UPLOAD'), false);
 
         JToolbarHelper::divider();
         JToolbarHelper::cancel('import.cancel', 'JTOOLBAR_CANCEL');
@@ -98,6 +93,6 @@ class EmailTemplatesViewImport extends JViewLegacy
         JHtml::_('bootstrap.tooltip');
         JHtml::_('Prism.ui.bootstrap2FileInput');
 
-        $this->document->addScript('../media/' . $this->option . '/js/admin/' . Joomla\String\String::strtolower($this->getName()) . '.js');
+        $this->document->addScript('../media/' . $this->option . '/js/admin/' . JString::strtolower($this->getName()) . '.js');
     }
 }

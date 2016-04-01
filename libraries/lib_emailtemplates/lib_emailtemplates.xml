@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="library" version="3.4" method="upgrade">
+<extension type="library" version="3.5" method="upgrade">
     <name>Email Templates Library</name>
-    <libraryname>EmailTemplates</libraryname>
+    <libraryname>Emailtemplates</libraryname>
     <author>Todor Iliev</author>
     <authorEmail>todor@itprism.com</authorEmail>
     <authorUrl>http://itprism.com</authorUrl>
-    <copyright>Copyright (C) 2015 Todor Iliev ( ITPrism.com ). All rights reserved.</copyright>
-    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <copyright>Copyright (C) 2016 Todor Iliev ( ITPrism.com ). All rights reserved.</copyright>
+    <license>http://www.gnu.org/licenses/gpl-3.0.en.html GNU/GPLv3</license>
     <packager>ITPrism</packager>
     <packagerurl>http://itprism.com</packagerurl>
-    <version>1.1</version>
-    <creationDate>21 August, 2015</creationDate>
+    <version>1.2</version>
+    <creationDate>31 March, 2016</creationDate>
     <description>Email Templates Library</description>
 
     <files>

@@ -3,15 +3,12 @@
  * @package      EmailTemplates
  * @subpackage   Components
  * @author       Todor Iliev
- * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
+ * @copyright    Copyright (C) 2016 Todor Iliev <todor@itprism.com>. All rights reserved.
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
 // no direct access
 defined('_JEXEC') or die;
-
-use Prism\Response\Json;
-use EmailTemplates\Emails;
 
 /**
  * EmailTemplates emails raw controller
@@ -28,7 +25,7 @@ class EmailTemplatesControllerEmails extends JControllerAdmin
      * @param    string $prefix The class prefix. Optional.
      * @param    array  $config Configuration array for model. Optional.
      *
-     * @return    object    The model.
+     * @return    EmailTemplatesModelEmail    The model.
      * @since    1.5
      */
     public function getModel($name = 'Email', $prefix = 'EmailTemplatesModel', $config = array('ignore_request' => true))
@@ -41,14 +38,14 @@ class EmailTemplatesControllerEmails extends JControllerAdmin
     public function getEmailOptions()
     {
         // Create response object
-        $response = new Json();
+        $response = new Prism\Response\Json();
 
-        $categoryId = $this->input->getInt("id");
+        $categoryId = $this->input->getInt('id');
 
         try {
 
-            $emails = new Emails(JFactory::getDbo());
-            $emails->load(array("category_id" => $categoryId));
+            $emails = new Emailtemplates\Emails(JFactory::getDbo());
+            $emails->load(array('category_id' => $categoryId));
 
             $response
                 ->setTitle(JText::_('COM_EMAILTEMPLATES_SUCCESS'))
@@ -79,9 +76,9 @@ class EmailTemplatesControllerEmails extends JControllerAdmin
 
         // Get the input
         $itemsIds  = $this->input->post->getString('ids');
-        $itemsIds  = explode(",", $itemsIds);
+        $itemsIds  = explode(',', $itemsIds);
 
-        Joomla\Utilities\ArrayHelper::toInteger($itemsIds);
+        $itemsIds = Joomla\Utilities\ArrayHelper::toInteger($itemsIds);
 
         $action    = $this->input->post->get('action');
 
@@ -92,8 +89,8 @@ class EmailTemplatesControllerEmails extends JControllerAdmin
         // Check for selected packages.
         if (!$itemsIds) {
             $response
-                ->setTitle(JText::_("COM_EMAILTEMPLATES_FAIL"))
-                ->setText(JText::_("COM_EMAILTEMPLATES_EMAILS_NOT_SELECTED"))
+                ->setTitle(JText::_('COM_EMAILTEMPLATES_FAIL'))
+                ->setText(JText::_('COM_EMAILTEMPLATES_EMAILS_NOT_SELECTED'))
                 ->failure();
 
             echo $response;
@@ -103,15 +100,15 @@ class EmailTemplatesControllerEmails extends JControllerAdmin
         try {
 
             switch ($action) {
-                case "copy":
+                case 'copy':
 
                     $categoryId  = $this->input->post->get('catid');
 
                     // Check for valid category.
                     if (!$categoryId) {
                         $response
-                            ->setTitle(JText::_("COM_EMAILTEMPLATES_FAIL"))
-                            ->setText(JText::_("COM_EMAILTEMPLATES_CATEGORY_NOT_SELECTED"))
+                            ->setTitle(JText::_('COM_EMAILTEMPLATES_FAIL'))
+                            ->setText(JText::_('COM_EMAILTEMPLATES_CATEGORY_NOT_SELECTED'))
                             ->failure();
 
                         echo $response;
@@ -121,8 +118,8 @@ class EmailTemplatesControllerEmails extends JControllerAdmin
                     $model->copyEmails($itemsIds, $categoryId);
 
                     $response
-                        ->setTitle(JText::_("COM_EMAILTEMPLATES_SUCCESS"))
-                        ->setText(JText::_("COM_EMAILTEMPLATES_EMAILS_COPIED_SUCCESSFULLY"))
+                        ->setTitle(JText::_('COM_EMAILTEMPLATES_SUCCESS'))
+                        ->setText(JText::_('COM_EMAILTEMPLATES_EMAILS_COPIED_SUCCESSFULLY'))
                         ->success();
 
                     break;

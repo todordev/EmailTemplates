@@ -3,13 +3,14 @@
  * @package      EmailTemplates
  * @subpackage   Components
  * @author       Todor Iliev
- * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
+ * @copyright    Copyright (C) 2016 Todor Iliev <todor@itprism.com>. All rights reserved.
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
-jimport("EmailTemplates.init");
+jimport('Prism.init');
+jimport('Emailtemplates.init');
 
 class JFormFieldEmailTemplate extends JFormField
 {
@@ -60,7 +61,7 @@ class JFormFieldEmailTemplate extends JFormField
         JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
         if (is_numeric($this->value) and !empty($this->value)) {
-            $email = new EmailTemplates\Email();
+            $email = new Emailtemplates\Email();
             $email->setDb(JFactory::getDbo());
             $email->load($this->value);
 

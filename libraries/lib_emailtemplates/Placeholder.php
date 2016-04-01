@@ -3,11 +3,13 @@
  * @package      EmailTemplates
  * @subpackage   Emails
  * @author       Todor Iliev
- * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
+ * @copyright    Copyright (C) 2016 Todor Iliev <todor@itprism.com>. All rights reserved.
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
-namespace EmailTemplates;
+namespace Emailtemplates;
+
+use Prism\Database;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -17,31 +19,12 @@ defined('JPATH_PLATFORM') or die;
  * @package      EmailTemplates
  * @subpackage   Placeholders
  */
-class Placeholder
+class Placeholder extends Database\TableImmutable
 {
     protected $id = 0;
-    protected $name = "";
-    protected $description = "";
+    protected $name;
+    protected $description;
     protected $catid = 0;
-
-    /**
-     * @var \JDatabaseDriver
-     */
-    protected $db;
-
-    /**
-     * This method initializes the object.
-     *
-     * <code>
-     * $placeholder = new EmailTemplates\Placeholder(JFactory::getDbo());
-     * </code>
-     * 
-     * @param \JDatabaseDriver $db
-     */
-    public function __construct(\JDatabaseDriver $db)
-    {
-        $this->db = $db;
-    }
 
     /**
      * This method loads data of a placeholder from the database.
@@ -49,56 +32,32 @@ class Placeholder
      * <code>
      * $placeholderId = 1;
      *
-     * $placeholder   = new EmailTemplates\Placeholder(JFactory::getDbo());
+     * $placeholder   = new Emailtemplates\Placeholder(JFactory::getDbo());
      * $placeholder->load($placeholderId);
      * </code>
-     * 
-     * @param int $id
+     *
+     * @param int|array $keys
+     * @param array $options
      */
-    public function load($id)
+    public function load($keys, array $options = array())
     {
         $query = $this->db->getQuery(true);
         $query
-            ->select("a.id, a.name, a.description, a.catid")
-            ->from($this->db->quoteName("#__emailtemplates_placeholders", "a"))
-            ->where("a.id = " . (int)$id);
+            ->select('a.id, a.name, a.description, a.catid')
+            ->from($this->db->quoteName('#__emailtemplates_placeholders', 'a'));
+
+        if (is_array($keys)) {
+            foreach ($keys as $key => $value) {
+                $query->where($this->db->quoteName('a.'.$key) .' = ' . $this->db->quote($value));
+            }
+        } else {
+            $query->where('a.id = ' . (int)$keys);
+        }
 
         $this->db->setQuery($query);
         $result = $this->db->loadAssoc();
 
-        if (!empty($result)) {
-            $this->bind($result);
-        }
-    }
-
-    /**
-     * This method sets data to object parameters.
-     *
-     * <code>
-     * $data = array(
-     *      "name"          => "{NAME}",
-     *      "description"   => "This is...",
-     *      "catid"         => 1
-     * );
-     *
-     * $placeholder   = new EmailTemplates\Placeholder(JFactory::getDbo());
-     * $placeholder->bind($data);
-     * </code>
-     *
-     * @param array $data
-     * @param array $ignored
-     *
-     * @return self
-     */
-    public function bind($data, $ignored = array())
-    {
-        foreach ($data as $key => $value) {
-            if (!in_array($key, $ignored)) {
-                $this->$key = $value;
-            }
-        }
-
-        return $this;
+        $this->bind($result);
     }
 
     /**
@@ -107,7 +66,7 @@ class Placeholder
      * <code>
      * $placeholderId  = 1;
      *
-     * $placeholder   = new EmailTemplates\Placeholder(JFactory::getDbo());
+     * $placeholder   = new Emailtemplates\Placeholder(JFactory::getDbo());
      * $placeholder->load($placeholderId);
      *
      * if (!$placeholder->getId()) {
@@ -128,7 +87,7 @@ class Placeholder
      * <code>
      * $placeholderId  = 1;
      *
-     * $placeholder   = new EmailTemplates\Placeholder(JFactory::getDbo());
+     * $placeholder   = new Emailtemplates\Placeholder(JFactory::getDbo());
      * $placeholder->load($placeholderId);
      *
      * $description = $placeholder->getDescription();
@@ -147,7 +106,7 @@ class Placeholder
      * <code>
      * $placeholderId = 1;
      *
-     * $placeholder   = new EmailTemplates\Placeholder(JFactory::getDbo());
+     * $placeholder   = new Emailtemplates\Placeholder(JFactory::getDbo());
      * $placeholder->load($placeholderId);
      *
      * $categoryId = $placeholder->getCategoryId();
@@ -166,7 +125,7 @@ class Placeholder
      * <code>
      * $placeholderId = 1;
      *
-     * $placeholder   = new EmailTemplates\Placeholder(JFactory::getDbo());
+     * $placeholder   = new Emailtemplates\Placeholder(JFactory::getDbo());
      * $placeholder->load($placeholderId);
      *
      * $name = $placeholder->getName();

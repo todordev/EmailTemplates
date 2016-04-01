@@ -3,11 +3,13 @@
  * @package      EmailTemplates
  * @subpackage   Categories
  * @author       Todor Iliev
- * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
+ * @copyright    Copyright (C) 2016 Todor Iliev <todor@itprism.com>. All rights reserved.
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
-namespace EmailTemplates;
+namespace Emailtemplates;
+
+use Prism\Database;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -17,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @package      EmailTemplates
  * @subpackage   Categories
  */
-class Category
+class Category extends Database\TableImmutable
 {
     protected $id;
     protected $title;
@@ -25,79 +27,34 @@ class Category
     protected $slug;
 
     /**
-     * @var \JDatabaseDriver
-     */
-    protected $db;
-
-    /**
-     * This method initializes the object.
-     *
-     * <code>
-     * $category   = new EmailTemplates\Category(JFactory::getDbo());
-     * </code>
-     *
-     * @param \JDatabaseDriver $db
-     */
-    public function __construct(\JDatabaseDriver $db = null)
-    {
-        $this->db = $db;
-    }
-
-    /**
      * This method loads data about category from a database.
      *
      * <code>
      * $categoryId = 1;
      *
-     * $category   = new EmailTemplates\Category(JFactory::getDbo());
+     * $category   = new Emailtemplates\Category(JFactory::getDbo());
      * $category->load($categoryId);
      * </code>
      *
-     * @param int $id
+     * @param int|array $keys
+     * @param array $options
      */
-    public function load($id)
+    public function load($keys, array $options = array())
     {
         $query = $this->db->getQuery(true);
         $query
             ->select(
-                "a.id, a.title, a.description, " .
-                $query->concatenate(array("a.id", "a.alias"), ":") . " AS slug"
+                'a.id, a.title, a.description, ' .
+                $query->concatenate(array('a.id', 'a.alias'), ':') . ' AS slug'
             )
-            ->from($this->db->quoteName("#__categories", "a"))
-            ->where("a.id = " . (int)$id)
-            ->where("a.extension = " . $this->db->quote("com_emailtemplates"));
+            ->from($this->db->quoteName('#__categories', 'a'))
+            ->where('a.id = ' . (int)$keys)
+            ->where('a.extension = ' . $this->db->quote('com_emailtemplates'));
 
         $this->db->setQuery($query);
-        $result = $this->db->loadAssoc();
+        $result = (array)$this->db->loadAssoc();
 
-        if (!empty($result)) {
-            $this->bind($result);
-        }
-    }
-
-    /**
-     * This method sets data to object parameters.
-     *
-     * <code>
-     * $data = array(
-     *      "id"    => 1,
-     *      "title" => "My title"
-     * );
-     *
-     * $category   = new EmailTemplates\Category(JFactory::getDbo());
-     * $category->bind($data);
-     * </code>
-     *
-     * @param array $data
-     * @param array $ignored
-     */
-    public function bind($data, $ignored = array())
-    {
-        foreach ($data as $key => $value) {
-            if (!in_array($key, $ignored)) {
-                $this->$key = $value;
-            }
-        }
+        $this->bind($result);
     }
 
     /**
@@ -106,7 +63,7 @@ class Category
      * <code>
      * $categoryId = 1;
      *
-     * $category   = new EmailTemplates\Category(JFactory::getDbo());
+     * $category   = new Emailtemplates\Category(JFactory::getDbo());
      * $category->load($categoryId);
      *
      * if (!$category->getId) {
@@ -118,7 +75,7 @@ class Category
      */
     public function getId()
     {
-        return $this->id;
+        return (int)$this->id;
     }
 
     /**
@@ -127,7 +84,7 @@ class Category
      * <code>
      * $categoryId = 1;
      *
-     * $category   = new EmailTemplates\Category(JFactory::getDbo());
+     * $category   = new Emailtemplates\Category(JFactory::getDbo());
      * $category->load($categoryId);
      *
      * $title = $category->getTitle();
@@ -144,7 +101,7 @@ class Category
      * <code>
      * $categoryId = 1;
      *
-     * $category   = new EmailTemplates\Category(JFactory::getDbo());
+     * $category   = new Emailtemplates\Category(JFactory::getDbo());
      * $category->load($categoryId);
      *
      * $description = $category->getDescription();
@@ -161,7 +118,7 @@ class Category
      * <code>
      * $categoryId = 1;
      *
-     * $category   = new EmailTemplates\Category(JFactory::getDbo());
+     * $category   = new Emailtemplates\Category(JFactory::getDbo());
      * $category->load($categoryId);
      *
      * $slug = $category->getSlug();

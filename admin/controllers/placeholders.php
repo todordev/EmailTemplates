@@ -3,14 +3,12 @@
  * @package      EmailTemplates
  * @subpackage   Component
  * @author       Todor Iliev
- * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
+ * @copyright    Copyright (C) 2016 Todor Iliev <todor@itprism.com>. All rights reserved.
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
 // No direct access
 defined('_JEXEC') or die;
-
-use Prism\Controller\Admin;
 
 /**
  * EmailTemplates comments controller class
@@ -18,12 +16,8 @@ use Prism\Controller\Admin;
  * @package     EmailTemplates
  * @subpackage  Components
  */
-class EmailTemplatesControllerPlaceholders extends Admin
+class EmailTemplatesControllerPlaceholders extends Prism\Controller\Admin
 {
-    /**
-     * Proxy for getModel.
-     * @since   1.6
-     */
     public function getModel($name = 'Placeholder', $prefix = 'EmailTemplatesModel', $config = array('ignore_request' => true))
     {
         $model = parent::getModel($name, $prefix, $config);

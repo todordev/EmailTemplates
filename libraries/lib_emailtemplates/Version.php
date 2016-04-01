@@ -3,11 +3,11 @@
  * @package      EmailTemplates
  * @subpackage   Version
  * @author       Todor Iliev
- * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
+ * @copyright    Copyright (C) 2016 Todor Iliev <todor@itprism.com>. All rights reserved.
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
-namespace EmailTemplates;
+namespace Emailtemplates;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -38,7 +38,7 @@ class Version
      *
      * @var integer
      */
-    public $devLevel = '1';
+    public $devLevel = '2';
 
     /**
      * Release Type
@@ -59,7 +59,7 @@ class Version
      *
      * @var string
      */
-    public $releaseDate = '21 August, 2015';
+    public $releaseDate = '31 March, 2016';
 
     /**
      * License
@@ -73,21 +73,21 @@ class Version
      *
      * @var string
      */
-    public $copyright = '&copy; 2015 ITPrism. All rights reserved.';
+    public $copyright = '&copy; 2016 ITPrism. All rights reserved.';
 
     /**
      * URL
      *
      * @var string
      */
-    public $url = '<a href="http://itprism.com/free-joomla-extensions/ecommerce-gamification/feedbacks-ideas-suggestions" target="_blank">User Ideas</a>';
+    public $url = '<a href="http://itprism.com/free-joomla-extensions/others/email-templates-manager" target="_blank">Email Templates</a>';
 
     /**
      * Backlink
      *
      * @var string
      */
-    public $backlink = '<div style="width:100%; text-align: left; font-size: xx-small; margin-top: 10px;"><a href="http://itprism.com/free-joomla-extensions/ecommerce-gamification/feedbacks-ideas-suggestions" target="_blank" rel="nofollow">Joomla! User Ideas</a></div>';
+    public $backlink = '<div style="width:100%; text-align: left; font-size: xx-small; margin-top: 10px;"><a href="http://itprism.com/free-joomla-extensions/others/email-templates-manager" target="_blank" rel="nofollow">Joomla! Email Templates</a></div>';
 
     /**
      * Developer
@@ -101,7 +101,7 @@ class Version
      *
      * @var string
      */
-    public $requiredPrismVersion = '1.2';
+    public $requiredPrismVersion = '1.9';
 
     /**
      *  Build long format of the version text

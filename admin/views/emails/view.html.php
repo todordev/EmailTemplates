@@ -3,11 +3,9 @@
  * @package      EmailTemplates
  * @subpackage   Component
  * @author       Todor Iliev
- * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
+ * @copyright    Copyright (C) 2016 Todor Iliev <todor@itprism.com>. All rights reserved.
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
-
-use Joomla\String\String;
 
 // no direct access
 defined('_JEXEC') or die;
@@ -35,17 +33,14 @@ class EmailTemplatesViewEmails extends JViewLegacy
     protected $saveOrderingUrl;
 
     public $filterForm;
+    public $activeFilters;
 
     protected $sidebar;
 
-    public function __construct($config)
-    {
-        parent::__construct($config);
-        $this->option = JFactory::getApplication()->input->get("option");
-    }
-
     public function display($tpl = null)
     {
+        $this->option = JFactory::getApplication()->input->get('option');
+        
         $this->state      = $this->get('State');
         $this->items      = $this->get('Items');
         $this->pagination = $this->get('Pagination');
@@ -69,9 +64,10 @@ class EmailTemplatesViewEmails extends JViewLegacy
         // Prepare filters
         $this->listOrder = $this->escape($this->state->get('list.ordering'));
         $this->listDirn  = $this->escape($this->state->get('list.direction'));
-        $this->saveOrder = (strcmp($this->listOrder, 'a.ordering') != 0) ? false : true;
+        $this->saveOrder = (strcmp($this->listOrder, 'a.ordering') === 0);
 
         $this->filterForm    = $this->get('FilterForm');
+        $this->activeFilters = $this->get('ActiveFilters');
     }
 
     /**
@@ -100,9 +96,9 @@ class EmailTemplatesViewEmails extends JViewLegacy
 
         // Import
         $link = JRoute::_('index.php?option=com_emailtemplates&view=import&type=emails');
-        $bar->appendButton('Link', 'upload', JText::_("COM_EMAILTEMPLATES_IMPORT"), $link);
+        $bar->appendButton('Link', 'upload', JText::_('COM_EMAILTEMPLATES_IMPORT'), $link);
 
-        JToolbarHelper::custom('export.emails', 'download', "", JText::_("COM_EMAILTEMPLATES_EXPORT"));
+        JToolbarHelper::custom('export.emails', 'download', '', JText::_('COM_EMAILTEMPLATES_EXPORT'));
         JToolbarHelper::divider();
         $layoutData = array(
             'title' => JText::_('JTOOLBAR_BATCH')
@@ -113,9 +109,9 @@ class EmailTemplatesViewEmails extends JViewLegacy
         $html = $layout->render($layoutData);
         $bar->appendButton('Custom', $html, 'batch');
         JToolbarHelper::divider();
-        JToolbarHelper::deleteList(JText::_("COM_EMAILTEMPLATES_DELETE_ITEMS_QUESTION"), "emails.delete");
+        JToolbarHelper::deleteList(JText::_('COM_EMAILTEMPLATES_DELETE_ITEMS_QUESTION'), 'emails.delete');
         JToolbarHelper::divider();
-        JToolbarHelper::custom('emails.backToDashboard', "dashboard", "", JText::_("COM_EMAILTEMPLATES_DASHBOARD"), false);
+        JToolbarHelper::custom('emails.backToDashboard', 'dashboard', '', JText::_('COM_EMAILTEMPLATES_DASHBOARD'), false);
     }
 
     /**
@@ -140,9 +136,9 @@ class EmailTemplatesViewEmails extends JViewLegacy
         JHtml::_('Prism.ui.pnotify');
         JHtml::_('Prism.ui.joomlaHelper');
 
-        $this->document->addScript('../media/' . $this->option . '/js/admin/' . Joomla\String\String::strtolower($this->getName()) . '.js');
+        $this->document->addScript('../media/' . $this->option . '/js/admin/' . JString::strtolower($this->getName()) . '.js');
 
-        if ($this->getLayout() == "modal") {
+        if ($this->getLayout() === "modal") {
             $this->document->addScript('../media/' . $this->option . '/js/admin/emails_modal.js');
         }
     }

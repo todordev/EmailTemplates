@@ -3,7 +3,7 @@
  * @package      EmailTemplates
  * @subpackage   Components
  * @author       Todor Iliev
- * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
+ * @copyright    Copyright (C) 2016 Todor Iliev <todor@itprism.com>. All rights reserved.
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,7 @@ class EmailTemplatesControllerImport extends Prism\Controller\Form\Backend
         $data = array_merge($data, $file);
 
         $redirectOptions = array(
-            "view" => "placeholders",
+            'view' => 'placeholders',
         );
 
         $model = $this->getModel();
@@ -37,7 +37,7 @@ class EmailTemplatesControllerImport extends Prism\Controller\Form\Backend
         /** @var $form JForm */
 
         if (!$form) {
-            throw new Exception(JText::_("COM_EMAILTEMPLATES_ERROR_FORM_CANNOT_BE_LOADED"), 500);
+            throw new Exception(JText::_('COM_EMAILTEMPLATES_ERROR_FORM_CANNOT_BE_LOADED'));
         }
 
         // Validate the form
@@ -50,17 +50,17 @@ class EmailTemplatesControllerImport extends Prism\Controller\Form\Backend
             return;
         }
 
-        $fileData = Joomla\Utilities\ArrayHelper::getValue($data, "data");
-        if (empty($fileData) or empty($fileData["name"])) {
+        $fileData = Joomla\Utilities\ArrayHelper::getValue($data, 'data');
+        if (!$fileData or empty($fileData['name'])) {
             $this->displayNotice(JText::_('COM_EMAILTEMPLATES_ERROR_FILE_CANT_BE_UPLOADED'), $redirectOptions);
             return;
         }
 
         try {
 
-            $filePath = $model->uploadFile($fileData, "placeholders");
+            $filePath = $model->uploadFile($fileData, 'placeholders');
 
-            $categoryId = Joomla\Utilities\ArrayHelper::getValue($data, "catid", 0, "int");
+            $categoryId = Joomla\Utilities\ArrayHelper::getValue($data, 'catid', 0, 'int');
 
             $model->importPlaceholders($filePath, $categoryId);
 
@@ -70,7 +70,6 @@ class EmailTemplatesControllerImport extends Prism\Controller\Form\Backend
         }
 
         $this->displayMessage(JText::_('COM_EMAILTEMPLATES_PLACEHOLDERS_IMPORTED'), $redirectOptions);
-
     }
 
     public function emails()
@@ -82,7 +81,7 @@ class EmailTemplatesControllerImport extends Prism\Controller\Form\Backend
         $data = array_merge($data, $file);
 
         $redirectOptions = array(
-            "view" => "emails",
+            'view' => 'emails',
         );
 
         $model = $this->getModel();
@@ -92,7 +91,7 @@ class EmailTemplatesControllerImport extends Prism\Controller\Form\Backend
         /** @var $form JForm */
 
         if (!$form) {
-            throw new Exception(JText::_("COM_EMAILTEMPLATES_ERROR_FORM_CANNOT_BE_LOADED"), 500);
+            throw new Exception(JText::_('COM_EMAILTEMPLATES_ERROR_FORM_CANNOT_BE_LOADED'));
         }
 
         // Validate the form
@@ -105,17 +104,17 @@ class EmailTemplatesControllerImport extends Prism\Controller\Form\Backend
             return;
         }
 
-        $fileData = Joomla\Utilities\ArrayHelper::getValue($data, "data");
-        if (empty($fileData) or empty($fileData["name"])) {
+        $fileData = Joomla\Utilities\ArrayHelper::getValue($data, 'data');
+        if (!$fileData or empty($fileData['name'])) {
             $this->displayNotice(JText::_('COM_EMAILTEMPLATES_ERROR_FILE_CANT_BE_UPLOADED'), $redirectOptions);
             return;
         }
 
         try {
 
-            $filePath = $model->uploadFile($fileData, "emails");
+            $filePath = $model->uploadFile($fileData, 'emails');
 
-            $categoryId = Joomla\Utilities\ArrayHelper::getValue($data, "catid", 0, "int");
+            $categoryId = Joomla\Utilities\ArrayHelper::getValue($data, 'catid', 0, 'int');
 
             $model->importEmails($filePath, $categoryId);
 
@@ -133,9 +132,9 @@ class EmailTemplatesControllerImport extends Prism\Controller\Form\Backend
         $app = JFactory::getApplication();
         /** @var $app JApplicationAdministrator */
 
-        $view = $app->getUserState("import.context", "emails");
+        $view = $app->getUserState('import.context', 'emails');
 
-        $link = $this->defaultLink . "&view=" . $view;
+        $link = $this->defaultLink . '&view=' . $view;
         $this->setRedirect(JRoute::_($link, false));
     }
 }

@@ -3,12 +3,9 @@
  * @package      EmailTemplates
  * @subpackage   Component
  * @author       Todor Iliev
- * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
+ * @copyright    Copyright (C) 2016 Todor Iliev <todor@itprism.com>. All rights reserved.
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
-
-use Prism\Controller\Form\Backend;
-use Joomla\Utilities\ArrayHelper;
 
 // No direct access
 defined('_JEXEC') or die;
@@ -20,7 +17,7 @@ defined('_JEXEC') or die;
  * @subpackage     Component
  * @since          1.6
  */
-class EmailTemplatesControllerExport extends Backend
+class EmailTemplatesControllerExport extends Prism\Controller\Form\Backend
 {
     public function placeholders()
     {
@@ -30,7 +27,7 @@ class EmailTemplatesControllerExport extends Backend
         /** @var $app JApplicationAdministrator */
 
         $keys   = $this->input->post->get('cid', array(), 'array');
-        Joomla\Utilities\ArrayHelper::toInteger($keys);
+        $keys   = Joomla\Utilities\ArrayHelper::toInteger($keys);
         
         $model = $this->getModel();
         /** @var $model EmailTemplatesModelExport */
@@ -38,7 +35,7 @@ class EmailTemplatesControllerExport extends Backend
         try {
 
             $output   = $model->extractPlaceholders($keys);
-            $fileName = "placeholders.xml";
+            $fileName = 'placeholders.xml';
 
         } catch (Exception $e) {
             JLog::add($e->getMessage());
@@ -50,13 +47,13 @@ class EmailTemplatesControllerExport extends Backend
         jimport('joomla.filesystem.path');
         jimport('joomla.filesystem.archive');
 
-        $tmpFolder = JPath::clean($app->get("tmp_path"));
+        $tmpFolder = JPath::clean($app->get('tmp_path'));
 
         $date = new JDate();
-        $date = $date->format("d_m_Y_H_i_s");
+        $date = $date->format('d_m_Y_H_i_s');
 
-        $archiveName = JFile::stripExt(basename($fileName)) . "_" . $date;
-        $archiveFile = $archiveName . ".zip";
+        $archiveName = JFile::stripExt(basename($fileName)) . '_' . $date;
+        $archiveFile = $archiveName . '.zip';
         $destination = $tmpFolder . DIRECTORY_SEPARATOR . $archiveFile;
 
         // compression type
@@ -97,7 +94,7 @@ class EmailTemplatesControllerExport extends Backend
         /** @var $app JApplicationAdministrator */
 
         $keys   = $this->input->post->get('cid', array(), 'array');
-        Joomla\Utilities\ArrayHelper::toInteger($keys);
+        $keys   = Joomla\Utilities\ArrayHelper::toInteger($keys);
 
         $model = $this->getModel();
         /** @var $model EmailTemplatesModelExport */
@@ -105,7 +102,7 @@ class EmailTemplatesControllerExport extends Backend
         try {
 
             $output   = $model->extractEmails($keys);
-            $fileName = "emails.xml";
+            $fileName = 'emails.xml';
 
         } catch (Exception $e) {
             JLog::add($e->getMessage());
@@ -117,13 +114,13 @@ class EmailTemplatesControllerExport extends Backend
         jimport('joomla.filesystem.path');
         jimport('joomla.filesystem.archive');
 
-        $tmpFolder = JPath::clean($app->get("tmp_path"));
+        $tmpFolder = JPath::clean($app->get('tmp_path'));
 
         $date = new JDate();
-        $date = $date->format("d_m_Y_H_i_s");
+        $date = $date->format('d_m_Y_H_i_s');
 
-        $archiveName = JFile::stripExt(basename($fileName)) . "_" . $date;
-        $archiveFile = $archiveName . ".zip";
+        $archiveName = JFile::stripExt(basename($fileName)) . '_' . $date;
+        $archiveFile = $archiveName . '.zip';
         $destination = $tmpFolder . DIRECTORY_SEPARATOR . $archiveFile;
 
         // compression type

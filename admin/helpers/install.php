@@ -3,7 +3,7 @@
  * @package      EmailTemplates
  * @subpackage   Component
  * @author       Todor Iliev
- * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
+ * @copyright    Copyright (C) 2016 Todor Iliev <todor@itprism.com>. All rights reserved.
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
@@ -52,11 +52,11 @@ class EmailTemplatesInstallHelper
      */
     public static function addRow($title, $result, $info)
     {
-        $outputType = Joomla\Utilities\ArrayHelper::getValue($result, "type", "");
-        $outputText = Joomla\Utilities\ArrayHelper::getValue($result, "text", "");
+        $outputType = Joomla\Utilities\ArrayHelper::getValue($result, 'type', '');
+        $outputText = Joomla\Utilities\ArrayHelper::getValue($result, 'text', '');
 
-        $output = "";
-        if (!empty($outputType) and !empty($outputText)) {
+        $output = '';
+        if ($outputType !== '' and $outputText !== '') {
             $output = '<span class="label label-' . $outputType . '">' . $outputText . '</span>';
         }
 

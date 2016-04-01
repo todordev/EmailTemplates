@@ -3,14 +3,13 @@
  * @package      EmailTemplates
  * @subpackage   Emails
  * @author       Todor Iliev
- * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
+ * @copyright    Copyright (C) 2016 Todor Iliev <todor@itprism.com>. All rights reserved.
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
-namespace EmailTemplates;
+namespace Emailtemplates;
 
 use Joomla\Utilities\ArrayHelper;
-use Joomla\String\String;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -23,12 +22,12 @@ defined('JPATH_PLATFORM') or die;
 class Email
 {
     protected $id = 0;
-    protected $title = "";
+    protected $title;
 
-    protected $subject = "";
-    protected $body = "";
-    protected $sender_name = "";
-    protected $sender_email = "";
+    protected $subject;
+    protected $body;
+    protected $sender_name;
+    protected $sender_email;
     
     protected $catid = 0;
 
@@ -44,13 +43,13 @@ class Email
      * $subject = "My subject...";
      * $body    = "My body...";
      *
-     * $email   = new EmailTemplates\Email($subject, $body);
+     * $email   = new Emailtemplates\Email($subject, $body);
      * </code>
      *
      * @param string $subject Mail subject.
      * @param string $body    Mail body.
      */
-    public function __construct($subject = "", $body = "")
+    public function __construct($subject = '', $body = '')
     {
         $this->subject = $subject;
         $this->body    = $body;
@@ -60,7 +59,7 @@ class Email
      * This method sets a database driver.
      *
      * <code>
-     * $email   = new EmailTemplates\Email();
+     * $email   = new Emailtemplates\Email();
      * $email->setDb(JFactory::getDbo());
      * </code>
      *
@@ -81,7 +80,7 @@ class Email
      * <code>
      * $emailId = 1;
      *
-     * $email   = new EmailTemplates\Email();
+     * $email   = new Emailtemplates\Email();
      * $email->setDb(JFactory::getDbo());
      * $email->load($emailId);
      * </code>
@@ -92,16 +91,14 @@ class Email
     {
         $query = $this->db->getQuery(true);
         $query
-            ->select("a.id, a.title, a.subject, a.body, a.sender_name, a.sender_email, a.catid")
-            ->from($this->db->quoteName("#__emailtemplates_emails", "a"))
-            ->where("a.id = " . (int)$id);
+            ->select('a.id, a.title, a.subject, a.body, a.sender_name, a.sender_email, a.catid')
+            ->from($this->db->quoteName('#__emailtemplates_emails', 'a'))
+            ->where('a.id = ' . (int)$id);
 
         $this->db->setQuery($query);
-        $result = $this->db->loadAssoc();
+        $result = (array)$this->db->loadAssoc();
 
-        if (!empty($result)) {
-            $this->bind($result);
-        }
+        $this->bind($result);
     }
 
     /**
@@ -115,7 +112,7 @@ class Email
      *      "sender_email"  => "john@mydomain.com"
      * );
      *
-     * $email   = new EmailTemplates\Email();
+     * $email   = new Emailtemplates\Email();
      * $email->bind($data);
      * </code>
      *
@@ -125,14 +122,14 @@ class Email
      */
     public function bind($data)
     {
-        $this->id    = ArrayHelper::getValue($data, "id", 0, "int");
-        $this->title = ArrayHelper::getValue($data, "title");
-        $this->catid = ArrayHelper::getValue($data, "catid", 0, "int");
+        $this->id    = ArrayHelper::getValue($data, 'id', 0, 'int');
+        $this->title = ArrayHelper::getValue($data, 'title');
+        $this->catid = ArrayHelper::getValue($data, 'catid', 0, 'int');
 
-        $this->setSubject(ArrayHelper::getValue($data, "subject"));
-        $this->setBody(ArrayHelper::getValue($data, "body"));
-        $this->setSenderName(ArrayHelper::getValue($data, "sender_name"));
-        $this->setSenderEmail(ArrayHelper::getValue($data, "sender_email"));
+        $this->setSubject(ArrayHelper::getValue($data, 'subject'));
+        $this->setBody(ArrayHelper::getValue($data, 'body'));
+        $this->setSenderName(ArrayHelper::getValue($data, 'sender_name'));
+        $this->setSenderEmail(ArrayHelper::getValue($data, 'sender_email'));
 
         return $this;
     }
@@ -143,7 +140,7 @@ class Email
      * <code>
      * $emailId  = 1;
      *
-     * $email   = new EmailTemplates\Email();
+     * $email   = new Emailtemplates\Email();
      * $email->setDb(JFactory::getDbo());
      * $email->load($emailId);
      *
@@ -156,7 +153,7 @@ class Email
      */
     public function getId()
     {
-        return $this->id;
+        return (int)$this->id;
     }
 
     /**
@@ -165,7 +162,7 @@ class Email
      * <code>
      * $subject  = "My subject...";
      *
-     * $email   = new EmailTemplates\Email();
+     * $email   = new Emailtemplates\Email();
      * $email->setSubject($subject);
      * </code>
      *
@@ -186,7 +183,7 @@ class Email
      * <code>
      * $emailId  = 1;
      *
-     * $email   = new EmailTemplates\Email();
+     * $email   = new Emailtemplates\Email();
      * $email->setDb(JFactory::getDbo());
      * $email->load($emailId);
      *
@@ -206,7 +203,7 @@ class Email
      * <code>
      * $body  = "My text...";
      *
-     * $email   = new EmailTemplates\Email();
+     * $email   = new Emailtemplates\Email();
      * $email->setBody($body);
      * </code>
      *
@@ -230,7 +227,7 @@ class Email
      * <code>
      * $emailId  = 1;
      *
-     * $email   = new EmailTemplates\Email($itemId);
+     * $email   = new Emailtemplates\Email($itemId);
      * $email->setDb(JFactory::getDbo());
      * $email->load($emailId);
      *
@@ -243,11 +240,11 @@ class Email
      *
      * @return string
      */
-    public function getBody($mode = "html")
+    public function getBody($mode = 'html')
     {
-        $mode = String::strtolower($mode);
-        if (strcmp("plain", $mode) == 0) {
-            $body = str_replace("<br />", "\n", $this->body);
+        $mode = strtolower($mode);
+        if (strcmp('plain', $mode) === 0) {
+            $body = str_replace('<br />', "\n", $this->body);
             $body = strip_tags($body);
 
             return $body;
@@ -262,7 +259,7 @@ class Email
      * <code>
      * $senderName  = "John Dow";
      *
-     * $email   = new EmailTemplates\Email();
+     * $email   = new Emailtemplates\Email();
      * $email->setSenderEmail($senderName);
      * </code>
      *
@@ -283,7 +280,7 @@ class Email
      * <code>
      * $emailId  = 1;
      *
-     * $email   = new EmailTemplates\Email();
+     * $email   = new Emailtemplates\Email();
      * $email->setDb(JFactory::getDbo());
      * $email->load($emailId);
      *
@@ -303,7 +300,7 @@ class Email
      * <code>
      * $senderEmail  = "john@gmail.com";
      *
-     * $email   = new EmailTemplates\Email();
+     * $email   = new Emailtemplates\Email();
      * $email->setSenderEmail($senderEmail);
      * </code>
      *
@@ -324,7 +321,7 @@ class Email
      * <code>
      * $emailId = 1;
      *
-     * $email   = new EmailTemplates\Email();
+     * $email   = new Emailtemplates\Email();
      * $email->setDb(JFactory::getDbo());
      * $email->load($emailId);
      * </code>
@@ -342,7 +339,7 @@ class Email
      * <code>
      * $emailId = 1;
      *
-     * $email   = new EmailTemplates\Email();
+     * $email   = new Emailtemplates\Email();
      * $email->setDb(JFactory::getDbo());
      * $email->load($emailId);
      *
@@ -362,7 +359,7 @@ class Email
      * <code>
      * $emailId  = 1;
      *
-     * $email   = new EmailTemplates\Email();
+     * $email   = new Emailtemplates\Email();
      * $email->setDb(JFactory::getDbo());
      * $email->load($emailId);
      *
@@ -382,7 +379,7 @@ class Email
      * <code>
      * $emailId  = 1;
      *
-     * $email   = new EmailTemplates\Email();
+     * $email   = new Emailtemplates\Email();
      * $email->setDb(JFactory::getDbo());
      * $email->load($emailId);
      *
@@ -397,7 +394,7 @@ class Email
     {
         foreach ($data as $key => $value) {
             // Prepare flag
-            $search = "{" . String::strtoupper($key) . "}";
+            $search = '{' . strtoupper($key) . '}';
 
             // Parse subject
             $this->subject = str_replace($search, $value, $this->subject);

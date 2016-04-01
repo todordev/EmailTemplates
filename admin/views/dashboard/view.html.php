@@ -3,7 +3,7 @@
  * @package      EmailTemplates
  * @subpackage   Component
  * @author       Todor Iliev
- * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
+ * @copyright    Copyright (C) 2016 Todor Iliev <todor@itprism.com>. All rights reserved.
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
@@ -33,25 +33,21 @@ class EmailTemplatesViewDashboard extends JViewLegacy
 
     protected $sidebar;
 
-    public function __construct($config)
-    {
-        parent::__construct($config);
-        $this->option = JFactory::getApplication()->input->get("option");
-    }
-
     public function display($tpl = null)
     {
-        $this->version = new EmailTemplates\Version;
+        $this->option = JFactory::getApplication()->input->get('option');
+        
+        $this->version = new Emailtemplates\Version;
 
         // Load ITPrism library version
-        if (!class_exists("\\Prism\\Version")) {
-            $this->prismVersion = JText::_("COM_EMAILTEMPLATES_PRISM_LIBRARY_DOWNLOAD");
+        if (!class_exists('\\Prism\\Version')) {
+            $this->prismVersion = JText::_('COM_EMAILTEMPLATES_PRISM_LIBRARY_DOWNLOAD');
         } else {
             $prismVersion       = new Prism\Version();
             $this->prismVersion = $prismVersion->getShortVersion();
 
-            if (version_compare($this->prismVersion, $this->version->requiredPrismVersion, "<")) {
-                $this->prismVersionLowerMessage = JText::_("COM_EMAILTEMPLATES_PRISM_LIBRARY_LOWER_VERSION");
+            if (version_compare($this->prismVersion, $this->version->requiredPrismVersion, '<')) {
+                $this->prismVersionLowerMessage = JText::_('COM_EMAILTEMPLATES_PRISM_LIBRARY_LOWER_VERSION');
             }
         }
 

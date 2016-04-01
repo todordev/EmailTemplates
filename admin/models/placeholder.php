@@ -3,11 +3,9 @@
  * @package      EmailTemplates
  * @subpackage   Component
  * @author       Todor Iliev
- * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
+ * @copyright    Copyright (C) 2016 Todor Iliev <todor@itprism.com>. All rights reserved.
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
-
-use Joomla\Utilities\ArrayHelper;
 
 // no direct access
 defined('_JEXEC') or die;
@@ -66,9 +64,9 @@ class EmailTemplatesModelPlaceholder extends JModelAdmin
             $data = $this->getItem();
 
             // Prime some default values.
-            if ($this->getState('placeholder.id') == 0) {
+            if ((int)$this->getState('placeholder.id') === 0) {
                 $filters = (array) $app->getUserState('com_emailtemplates.placeholders.filter');
-                $filterCatId = isset($filters['category_id']) ? $filters['category_id'] : null;
+                $filterCatId = array_key_exists('category_id', $filters) ? (int)$filters['category_id'] : null;
 
                 $data->set('catid', $app->input->getInt('catid', $filterCatId));
             }
@@ -87,10 +85,10 @@ class EmailTemplatesModelPlaceholder extends JModelAdmin
      */
     public function save($data)
     {
-        $id          = ArrayHelper::getValue($data, "id");
-        $name        = ArrayHelper::getValue($data, "name");
-        $description = ArrayHelper::getValue($data, "description");
-        $categoryId  = ArrayHelper::getValue($data, "catid");
+        $id          = Joomla\Utilities\ArrayHelper::getValue($data, 'id');
+        $name        = Joomla\Utilities\ArrayHelper::getValue($data, 'name');
+        $description = Joomla\Utilities\ArrayHelper::getValue($data, 'description');
+        $categoryId  = Joomla\Utilities\ArrayHelper::getValue($data, 'catid');
 
         // Load a record from the database
         $row = $this->getTable();
@@ -98,15 +96,15 @@ class EmailTemplatesModelPlaceholder extends JModelAdmin
 
         $row->load($id);
 
-        $row->set("name", $name);
-        $row->set("description", $description);
-        $row->set("catid", $categoryId);
+        $row->set('name', $name);
+        $row->set('description', $description);
+        $row->set('catid', $categoryId);
 
         $this->prepareTable($row);
 
         $row->store();
 
-        return $row->get("id");
+        return $row->get('id');
     }
 
     /**
@@ -121,19 +119,19 @@ class EmailTemplatesModelPlaceholder extends JModelAdmin
     protected function prepareTable($table)
     {
         // Set order value
-        if (!$table->get("id") and !$table->get("ordering")) {
+        if (!$table->get('id') and !$table->get('ordering')) {
 
             $db    = $this->getDbo();
             $query = $db->getQuery(true);
 
             $query
-                ->select("MAX(ordering)")
-                ->from($db->quoteName("#__emailtemplates_placeholders"));
+                ->select('MAX(ordering)')
+                ->from($db->quoteName('#__emailtemplates_placeholders'));
 
             $db->setQuery($query, 0, 1);
             $max = $db->loadResult();
 
-            $table->set("ordering", $max + 1);
+            $table->set('ordering', $max + 1);
         }
 
     }
@@ -142,13 +140,13 @@ class EmailTemplatesModelPlaceholder extends JModelAdmin
     {
         foreach ($ids as $id) {
 
-            if (!empty($id)) {
+            if ((int)$id > 0) {
                 $table = $this->getTable();
                 $table->load($id);
 
-                if ($table->get("id")) {
-                    $table->set("id", null);
-                    $table->set("catid", (int)$categoryId);
+                if ($table->get('id')) {
+                    $table->set('id', null);
+                    $table->set('catid', (int)$categoryId);
 
                     $table->store();
                 }

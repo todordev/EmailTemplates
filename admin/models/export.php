@@ -3,7 +3,7 @@
  * @package      EmailTemplates
  * @subpackage   Components
  * @author       Todor Iliev
- * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
+ * @copyright    Copyright (C) 2016 Todor Iliev <todor@itprism.com>. All rights reserved.
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ class EmailTemplatesModelExport extends JModelLegacy
     {
         $output = null;
 
-        if (!empty($keys)) {
+        if (is_array($keys) and count($keys) > 0) {
             $db = $this->getDbo();
             /** @var $db JDatabaseDriver */
 
@@ -27,13 +27,13 @@ class EmailTemplatesModelExport extends JModelLegacy
             $query
                 ->select('a.name, a.description, a.ordering')
                 ->from($db->quoteName('#__emailtemplates_placeholders', 'a'))
-                ->where("a.id IN (" . implode(",", $keys) . ")");
+                ->where('a.id IN (' . implode(',', $keys) . ')');
 
 
             $db->setQuery($query);
             $results = $db->loadAssocList();
 
-            $output = $this->prepareXML($results, "placeholders", "placeholder");
+            $output = $this->prepareXML($results, 'placeholders', 'placeholder');
         }
 
         return $output;
@@ -43,7 +43,7 @@ class EmailTemplatesModelExport extends JModelLegacy
     {
         $output = null;
 
-        if (!empty($keys)) {
+        if (is_array($keys) and count($keys) > 0) {
             $db = $this->getDbo();
             /** @var $db JDatabaseDriver */
 
@@ -54,13 +54,13 @@ class EmailTemplatesModelExport extends JModelLegacy
             $query
                 ->select('a.title, a.subject, a.body')
                 ->from($db->quoteName('#__emailtemplates_emails', 'a'))
-                ->where("a.id IN (" . implode(",", $keys) . ")");
+                ->where('a.id IN (' . implode(',', $keys) . ')');
 
 
             $db->setQuery($query);
             $results = $db->loadAssocList();
 
-            $output = $this->prepareXML($results, "emails", "email");
+            $output = $this->prepareXML($results, 'emails', 'email');
         }
 
         return $output;
@@ -69,7 +69,7 @@ class EmailTemplatesModelExport extends JModelLegacy
     protected function prepareXML($results, $root, $child)
     {
         $xml = new Prism\Xml\Simple('<?xml version="1.0" encoding="utf-8" ?><' . $root . '/>');
-        $xml->addAttribute("generator", "com_emailtemplates");
+        $xml->addAttribute('generator', 'com_emailtemplates');
 
         if (!empty($root) and !empty($child)) {
 
@@ -78,7 +78,7 @@ class EmailTemplatesModelExport extends JModelLegacy
                 $item = $xml->addChild($child);
 
                 foreach ($data as $key => $value) {
-                    if (strcmp("body", $key) != 0) {
+                    if (strcmp('body', $key) !== 0) {
                         $item->addChild($key, $value);
                     } else {
                         $cdataItem = $item->addChild($key);

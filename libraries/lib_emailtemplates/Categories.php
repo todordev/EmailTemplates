@@ -3,13 +3,11 @@
  * @package      EmailTemplates
  * @subpackage   Categories
  * @author       Todor Iliev
- * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
+ * @copyright    Copyright (C) 2016 Todor Iliev <todor@itprism.com>. All rights reserved.
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
-namespace EmailTemplates;
-
-use Joomla\String\String;
+namespace Emailtemplates;
 
 defined('_JEXEC') or die;
 
@@ -47,7 +45,7 @@ class Categories extends \JCategories
      *     "published" => 1,
      * );
      *
-     * $categories   = new EmailTemplates\Categories($options);
+     * $categories   = new Emailtemplates\Categories($options);
      * </code>
      *
      * @param array $options
@@ -64,7 +62,7 @@ class Categories extends \JCategories
      * This method sets a database driver.
      *
      * <code>
-     * $categories   = new EmailTemplates\Categories();
+     * $categories   = new Emailtemplates\Categories();
      * $categories->setDb(JFactory::getDbo());
      * </code>
      *
@@ -92,7 +90,7 @@ class Categories extends \JCategories
      *    "order_dir" => "DESC",
      * );
      *
-     * $categories   = new EmailTemplates\Categories();
+     * $categories   = new Emailtemplates\Categories();
      * $categories->setDb(JFactory::getDbo());
      *
      * $categories->load($parentId);
@@ -101,41 +99,41 @@ class Categories extends \JCategories
      * @param null|int $parentId Parent ID or "root".
      * @param array $options
      */
-    public function load($parentId = null, $options = array())
+    public function load($parentId = null, array $options = array())
     {
-        $offset    = (isset($options["offset"])) ? $options["offset"] : 0;
-        $limit     = (isset($options["limit"])) ? $options["limit"] : 20;
-        $orderBy   = (isset($options["order_by"])) ? $options["order_by"] : "a.title";
-        $orderDir  = (isset($options["order_dir"])) ? $options["order_dir"] : "ASC";
-        $loadPlaceholders  = (isset($options["load_placeholders"])) ? (bool)$options["load_placeholders"] : false;
+        $offset    = (isset($options['offset'])) ? $options['offset'] : 0;
+        $limit     = (isset($options['limit'])) ? $options['limit'] : 20;
+        $orderBy   = (isset($options['order_by'])) ? $options['order_by'] : 'a.title';
+        $orderDir  = (isset($options['order_dir'])) ? $options['order_dir'] : 'ASC';
+        $loadPlaceholders  = (isset($options['load_placeholders'])) ? (bool)$options['load_placeholders'] : false;
 
-        $orderDir  = String::strtoupper($orderDir);
+        $orderDir  = strtoupper($orderDir);
 
-        if (!in_array($orderDir, array("ASC", "DESC"))) {
-            $orderDir = "ASC";
+        if (!in_array($orderDir, array('ASC', 'DESC'), true)) {
+            $orderDir = 'ASC';
         }
 
         $query = $this->db->getQuery(true);
         $query
             ->select(
-                "a.id, a.title, a.alias, a.description, a.params, " .
-                $query->concatenate(array("a.id", "a.alias"), ":") . " AS slug"
+                'a.id, a.title, a.alias, a.description, a.params, ' .
+                $query->concatenate(array('a.id', 'a.alias'), ':') . ' AS slug'
             )
-            ->from($this->db->quoteName("#__categories", "a"))
-            ->where("a.extension = ". $this->db->quote($this->_extension));
+            ->from($this->db->quoteName('#__categories', 'a'))
+            ->where('a.extension = '. $this->db->quote($this->_extension));
 
-        if (!is_null($parentId)) {
-            $query->where("a.parent_id = ". (int)$parentId);
+        if ($parentId !== null) {
+            $query->where('a.parent_id = '. (int)$parentId);
         }
 
-        $query->order($this->db->quoteName($orderBy) . " " . $orderDir);
+        $query->order($this->db->quoteName($orderBy) . ' ' . $orderDir);
 
         $this->db->setQuery($query, (int)$offset, (int)$limit);
 
         $results = (array)$this->db->loadAssocList();
 
-        if (!empty($results) and $loadPlaceholders) {
-            $this->loadPlaceholders($results);
+        if (count($results) > 0 and $loadPlaceholders) {
+            $results = $this->preparePlaceholders($results);
         }
 
         $this->data = $results;
@@ -146,42 +144,42 @@ class Categories extends \JCategories
      *
      * @param array $categories
      */
-    protected function loadPlaceholders(&$categories)
+    protected function preparePlaceholders($categories)
     {
         $ids = array();
-        foreach ($categories as &$category) {
-            $ids[] = $category["id"];
+        foreach ($categories as $key => $category) {
+            $ids[] = $category['id'];
 
-            if (!isset($category["placeholders"])) {
-                $category["placeholders"] = array();
+            if (!array_key_exists('placeholders', $category) or !is_array($category['placeholders'])) {
+                $categories[$key]['placeholders'] = array();
             }
         }
-        unset($category);
 
         $query = $this->db->getQuery(true);
         $query
             ->select(
-                "a.id, a.name, a.description, a.catid, " .
-                "b.title AS category"
+                'a.id, a.name, a.description, a.catid, ' .
+                'b.title AS category'
             )
-            ->from($this->db->quoteName("#__emailtemplates_placeholders", "a"))
-            ->leftJoin($this->db->quoteName("#__categories", "b") . " ON a.catid = b.id")
-            ->where("a.catid IN (". implode(",", $ids) . ")")
-            ->order("a.name ASC");
+            ->from($this->db->quoteName('#__emailtemplates_placeholders', 'a'))
+            ->leftJoin($this->db->quoteName('#__categories', 'b') . ' ON a.catid = b.id')
+            ->where('a.catid IN ('. implode(',', $ids) . ')')
+            ->order('a.name ASC');
 
         $this->db->setQuery($query);
         $results = $this->db->loadAssocList();
 
-        foreach ($categories as &$category) {
+        foreach ($categories as $key => $category) {
 
             foreach ($results as $placeholder) {
-                if ($category["id"] == $placeholder["catid"]) {
-                    $category["placeholders"][] = $placeholder;
+                if ((int)$category['id'] === (int)$placeholder['catid']) {
+                    $categories[$key]['placeholders'][] = $placeholder;
                 }
             }
 
         }
-        unset($category);
+
+        return $categories;
     }
 
     /**

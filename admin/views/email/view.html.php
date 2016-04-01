@@ -3,11 +3,9 @@
  * @package      EmailTemplates
  * @subpackage   Component
  * @author       Todor Iliev
- * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
+ * @copyright    Copyright (C) 2016 Todor Iliev <todor@itprism.com>. All rights reserved.
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
-
-use \Joomla\String\String;
 
 // no direct access
 defined('_JEXEC') or die;
@@ -32,21 +30,17 @@ class EmailTemplatesViewEmail extends JViewLegacy
 
     protected $categories;
 
-    public function __construct($config)
-    {
-        parent::__construct($config);
-        $this->option = JFactory::getApplication()->input->get("option");
-    }
-
     public function display($tpl = null)
     {
+        $this->option = JFactory::getApplication()->input->get('option');
+        
         $this->state = $this->get('State');
         $this->item  = $this->get('Item');
         $this->form  = $this->get('Form');
 
-        $this->categories = new \EmailTemplates\Categories;
+        $this->categories = new \Emailtemplates\Categories;
         $this->categories->setDb(JFactory::getDbo());
-        $this->categories->load(null, array("load_placeholders" => true));
+        $this->categories->load(null, array('load_placeholders' => true));
 
         $this->categories = $this->categories->toArray();
 
@@ -64,7 +58,7 @@ class EmailTemplatesViewEmail extends JViewLegacy
     protected function addToolbar()
     {
         JFactory::getApplication()->input->set('hidemainmenu', true);
-        $isNew = ($this->item->id == 0);
+        $isNew = ((int)$this->item->id === 0);
 
         $this->documentTitle = $isNew ? JText::_('COM_EMAILTEMPLATES_ADD_EMAIL_TEMPLATE') : JText::_('COM_EMAILTEMPLATES_EDIT_EMAIL_TEMPLATE');
 
@@ -90,6 +84,6 @@ class EmailTemplatesViewEmail extends JViewLegacy
         JHtml::_('behavior.formvalidation');
 
         // Add scripts
-        $this->document->addScript('../media/' . $this->option . '/js/admin/' . String::strtolower($this->getName()) . '.js');
+        $this->document->addScript('../media/' . $this->option . '/js/admin/' . JString::strtolower($this->getName()) . '.js');
     }
 }

@@ -3,7 +3,7 @@
  * @package      EmailTemplates
  * @subpackage   Component
  * @author       Todor Iliev
- * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
+ * @copyright    Copyright (C) 2016 Todor Iliev <todor@itprism.com>. All rights reserved.
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  */
 class EmailTemplatesHelper
 {
-    protected static $extension = "com_emailtemplates";
+    protected static $extension = 'com_emailtemplates';
 
     /**
      * Configure the Linkbar.
@@ -29,25 +29,25 @@ class EmailTemplatesHelper
         JHtmlSidebar::addEntry(
             JText::_('COM_EMAILTEMPLATES_DASHBOARD'),
             'index.php?option=' . self::$extension . '&view=dashboard',
-            $vName == 'dashboard'
+            $vName === 'dashboard'
         );
 
         JHtmlSidebar::addEntry(
             JText::_('COM_EMAILTEMPLATES_CATEGORIES'),
             'index.php?option=com_categories&extension=' . self::$extension . '',
-            $vName == 'categories'
+            $vName === 'categories'
         );
 
         JHtmlSidebar::addEntry(
             JText::_('COM_EMAILTEMPLATES_EMAIL_TEMPLATES'),
             'index.php?option=' . self::$extension . '&view=emails',
-            $vName == 'emails'
+            $vName === 'emails'
         );
 
         JHtmlSidebar::addEntry(
             JText::_('COM_EMAILTEMPLATES_PLACEHOLDERS'),
             'index.php?option=' . self::$extension . '&view=placeholders',
-            $vName == 'placeholders'
+            $vName === 'placeholders'
         );
     }
 }
