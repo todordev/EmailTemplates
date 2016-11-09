@@ -86,12 +86,12 @@ class EmailTemplatesModelImport extends JModelForm
         /** @var $app JApplicationAdministrator */
 
         $uploadedFile = ArrayHelper::getValue($uploadedFileData, 'tmp_name');
-        $uploadedName = ArrayHelper::getValue($uploadedFileData, 'name');
+//        $uploadedName = ArrayHelper::getValue($uploadedFileData, 'name');
         $errorCode    = ArrayHelper::getValue($uploadedFileData, 'error');
 
         // Prepare size validator.
-        $KB       = 1024**2;
-        $fileSize = (int)ArrayHelper::getValue($uploadedFileData, 'size');
+        $KB       = pow(1024, 2);
+        $fileSize = ArrayHelper::getValue($uploadedFileData, 'size', 0, 'int');
 
         $mediaParams   = JComponentHelper::getParams('com_media');
         /** @var $mediaParams Joomla\Registry\Registry */
