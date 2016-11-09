@@ -7,6 +7,9 @@
  * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
+use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
+
 // no direct access
 defined('_JEXEC') or die;
 
@@ -20,7 +23,6 @@ class EmailTemplatesModelImport extends JModelForm
         // Load the filter state.
         $value = $app->getUserStateFromRequest('import.context', 'type', 'placeholders');
         $this->setState('import.context', $value);
-
     }
 
     /**
@@ -29,14 +31,14 @@ class EmailTemplatesModelImport extends JModelForm
      * @param   array   $data     An optional array of data for the form to interrogate.
      * @param   boolean $loadData True if the form is to load its own data (default case), false if not.
      *
-     * @return  JForm   A JForm object on success, false on failure
+     * @return  JForm|bool   A JForm object on success, false on failure
      * @since   1.6
      */
     public function getForm($data = array(), $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm($this->option . '.import', 'import', array('control' => 'jform', 'load_data' => $loadData));
-        if (empty($form)) {
+        if (!$form) {
             return false;
         }
 
@@ -59,7 +61,7 @@ class EmailTemplatesModelImport extends JModelForm
 
     public function extractFile($file, $destFolder)
     {
-        $filePath = "";
+        $filePath = '';
 
         // extract type
         $zipAdapter = JArchive::getAdapter('zip');
@@ -68,36 +70,28 @@ class EmailTemplatesModelImport extends JModelForm
         $dir = new DirectoryIterator($destFolder);
 
         foreach ($dir as $fileinfo) {
-
             $fileExtension = JFile::getExt($fileinfo->getFilename());
             if (!$fileinfo->isDot() and strcmp('xml', $fileExtension) === 0) {
                 $filePath = JPath::clean($destFolder . DIRECTORY_SEPARATOR . JFile::makeSafe($fileinfo->getFilename()));
                 break;
             }
-
         }
 
         return $filePath;
     }
 
-    public function uploadFile($fileData, $type)
+    public function uploadFile($uploadedFileData, $type)
     {
         $app = JFactory::getApplication();
         /** @var $app JApplicationAdministrator */
 
-        jimport('joomla.filesystem.archive');
-
-        $uploadedFile = Joomla\Utilities\ArrayHelper::getValue($fileData, 'tmp_name');
-        $uploadedName = Joomla\Utilities\ArrayHelper::getValue($fileData, 'name');
-        $errorCode    = Joomla\Utilities\ArrayHelper::getValue($fileData, 'error');
-
-        $destination = JPath::clean($app->get('tmp_path') . DIRECTORY_SEPARATOR . JFile::makeSafe($uploadedName));
-
-        $file = new Prism\File\File();
+        $uploadedFile = ArrayHelper::getValue($uploadedFileData, 'tmp_name');
+        $uploadedName = ArrayHelper::getValue($uploadedFileData, 'name');
+        $errorCode    = ArrayHelper::getValue($uploadedFileData, 'error');
 
         // Prepare size validator.
-        $KB       = 1024 * 1024;
-        $fileSize = (int)$app->input->server->get('CONTENT_LENGTH');
+        $KB       = 1024**2;
+        $fileSize = (int)ArrayHelper::getValue($uploadedFileData, 'size');
 
         $mediaParams   = JComponentHelper::getParams('com_media');
         /** @var $mediaParams Joomla\Registry\Registry */
@@ -110,37 +104,32 @@ class EmailTemplatesModelImport extends JModelForm
         // Prepare server validator.
         $serverValidator = new Prism\File\Validator\Server($errorCode, array(UPLOAD_ERR_NO_FILE));
 
-        $file->addValidator($sizeValidator);
-        $file->addValidator($serverValidator);
+        $file = new Prism\File\File($uploadedFile);
+        $file
+            ->addValidator($sizeValidator)
+            ->addValidator($serverValidator);
 
         // Validate the file
         if (!$file->isValid()) {
             throw new RuntimeException($file->getError());
         }
 
-        // Prepare uploader object.
-        $uploader = new Prism\File\Uploader\Local($uploadedFile);
-        $uploader->setDestination($destination);
-
-        // Upload the file
-        $file->setUploader($uploader);
-        $file->upload();
-
-        $fileName = basename($destination);
+        // Upload the file.
+        $rootFolder      = JPath::clean($app->get('tmp_path'), '/');
+        $filesystemLocal = new Prism\Filesystem\Adapter\Local($rootFolder);
+        $sourceFile      = $filesystemLocal->upload($uploadedFileData);
 
         // Extract file if it is archive.
-        $ext = JString::strtolower(JFile::getExt($fileName));
+        $ext = StringHelper::strtolower(JFile::getExt(basename($sourceFile)));
         if (strcmp($ext, 'zip') === 0) {
-
-            $destFolder = JPath::clean($app->get('tmp_path'). '/'. $type);
-            if (is_dir($destFolder)) {
-                JFolder::delete($destFolder);
+            $destinationFolder = JPath::clean($app->get('tmp_path'). '/'. $type, '/');
+            if (JFolder::exists($destinationFolder)) {
+                JFolder::delete($destinationFolder);
             }
 
-            $filePath = $this->extractFile($destination, $destFolder);
-
+            $filePath = $this->extractFile($sourceFile, $destinationFolder);
         } else {
-            $filePath = $destination;
+            $filePath = $sourceFile;
         }
 
         return $filePath;
@@ -151,6 +140,8 @@ class EmailTemplatesModelImport extends JModelForm
      *
      * @param string $file    A path to file
      * @param int    $categoryId
+     *
+     * @throws \RuntimeException
      */
     public function importPlaceholders($file, $categoryId)
     {
@@ -163,8 +154,7 @@ class EmailTemplatesModelImport extends JModelForm
 
         // Generate data for importing.
         foreach ($content as $item) {
-
-            $name = JString::trim($item->name);
+            $name = StringHelper::trim($item->name);
             if (!$name) {
                 continue;
             }
@@ -190,6 +180,8 @@ class EmailTemplatesModelImport extends JModelForm
      *
      * @param string $file    A path to file
      * @param int    $categoryId
+     *
+     * @throws \RuntimeException
      */
     public function importEmails($file, $categoryId)
     {
@@ -202,8 +194,7 @@ class EmailTemplatesModelImport extends JModelForm
 
         // Generate data for importing.
         foreach ($content as $item) {
-
-            $title = JString::trim($item->title);
+            $title = StringHelper::trim($item->title);
             if (!$title) {
                 continue;
             }

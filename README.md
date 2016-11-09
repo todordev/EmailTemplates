@@ -1,6 +1,6 @@
-Email Templates for Joomla! 
+EmailTemplates for Joomla! 
 ==========================
-( Version 1.2 )
+( Version 1.2.1 )
 --------------------------
 
 Email Templates is an extension for Joomla! developers that provides functionality for creating and managing e-mail templates. Developers will be able to use those e-mail templates in their applications.
@@ -8,12 +8,12 @@ Email Templates is an extension for Joomla! developers that provides functionali
 ##Documentation
 You can find documentation on following pages.
 
-[Documentation and FAQ] (#)
+[Documentation and FAQ](http://itprism.com/help/115-emailtemplates-info-guide)
 
-[API documentation] (http://cdn.itprism.com/api/emailtemplates/index.html)
+[API documentation](http://cdn.itprism.com/api/emailtemplates/index.html)
 
 ##Download
-You can [download Email Templates package] (http://itprism.com/free-joomla-extensions/others/email-templates-manager) from the website of ITPrism.
+You can [download Email Templates package](http://itprism.com/free-joomla-extensions/others/email-templates-manager) from the website of ITPrism.
 
 ##License
-Email Templates is under GPLv3 [license] (https://raw.githubusercontent.com/ITPrism/EmailTemplates/master/LICENSE.txt).
+Email Templates is under GPLv3 [license](https://raw.githubusercontent.com/ITPrism/EmailTemplates/master/LICENSE.txt).

@@ -72,9 +72,7 @@ class EmailTemplatesModelExport extends JModelLegacy
         $xml->addAttribute('generator', 'com_emailtemplates');
 
         if (!empty($root) and !empty($child)) {
-
             foreach ($results as $data) {
-
                 $item = $xml->addChild($child);
 
                 foreach ($data as $key => $value) {

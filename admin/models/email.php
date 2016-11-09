@@ -135,7 +135,6 @@ class EmailTemplatesModelEmail extends JModelAdmin
     public function copyEmails(array $ids, $categoryId)
     {
         foreach ($ids as $id) {
-
             if ((int)$id > 0) {
                 $table = $this->getTable();
                 $table->load($id);
@@ -148,6 +147,5 @@ class EmailTemplatesModelEmail extends JModelAdmin
                 }
             }
         }
-
     }
 }
